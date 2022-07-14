@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# apiur
+# valueR
 
 <!-- badges: start -->
 <!-- badges: end -->
