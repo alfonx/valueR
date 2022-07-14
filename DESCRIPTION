@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: person("Lorenz", "Thomschke", email = "lorenz.thomschke@value-ag.de", role = c("aut", "cre"))
 Maintainer: The package maintainer <lorenz.thomschke@value-ag.de>
 Description: This package offers tidy functions to receive data from VALUE market data APIs.
-License: file LICENSE
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
