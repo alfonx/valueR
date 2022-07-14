@@ -1,0 +1,31 @@
+Package: valueR
+Type: Package
+Title: VALUE ANALYST and AVM API using R
+Version: 0.1.0
+Authors@R: person("Lorenz", "Thomschke", email = "lorenz.thomschke@value-ag.de", role = c("aut", "cre"))
+Maintainer: The package maintainer <lorenz.thomschke@value-ag.de>
+Description: This package offers tidy functions to receive data from VALUE market data APIs.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    tidyr,
+    tidyselect,
+    jsonlite,
+    rlang,
+    httr,
+    magrittr,
+    doParallel,
+    foreach,
+    stringr,
+    tibble,
+    methods
+RoxygenNote: 7.2.0
+Suggests: 
+    markdown,
+    rmarkdown,
+    knitr,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
