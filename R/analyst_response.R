@@ -26,7 +26,7 @@ analyst_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json 
 
   if (type == "POST" && (is.null(json) || jsonlite::validate(json) == FALSE)) stop("You must specify a valid json.", call. = FALSE)
   
-  url <- httr::modify_url(valuer$apiurl, path = path)  
+  url <- httr::modify_url(valuer$analyst_url, path = path)  
   
   if (type == "GET") {
     

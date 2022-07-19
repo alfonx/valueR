@@ -60,11 +60,11 @@ valuer_access <- function(avm_url = Sys.getenv("VALUER_AVM_URL"),
   
   tryCatch(
   	{
-  		assign('apiurl', httr::modify_url(analyst_url), valuer)
+  		assign('analyst_url', httr::modify_url(analyst_url), valuer)
   		assign('analyst_status', 200, valuer)
   		analyst_status <- analyst_response(path = "status")
   		assign('analyst_status', httr::status_code(analyst_status$response), valuer)
-  		if (httr::status_code(analyst_status$response) == 200) message("Connected to API: ", valuer$apiurl)
+  		if (httr::status_code(analyst_status$response) == 200) message("Connected to API: ", valuer$analyst_url)
    	},
   	error=function(e) {
   		message("Unable to connect to ANALYST.")
