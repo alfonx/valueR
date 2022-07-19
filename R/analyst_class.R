@@ -15,7 +15,7 @@
 #' @keywords internal
 
 setOldClass("response")
-setClass("api_class",
+setClass("analyst_class",
 				 representation(content = "list",
 				 							 values = "data.frame",
 				 							 trends = "data.frame",

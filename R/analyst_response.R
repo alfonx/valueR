@@ -13,16 +13,16 @@
 #' @param path Path to the desired endpoint.
 #' @param type One of GET, POST or HEAD.
 #' @param json Request body in JSON format.
-#' @returns An object of class \code{\link{api_class}}.
-#' @examples \dontrun{api_response(path = "status")}
+#' @returns An object of class \code{\link{analyst_class}}.
+#' @examples \dontrun{analyst_response(path = "status")}
 #' @export
 
-api_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json = NULL) {
+analyst_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json = NULL) {
   
   type <- rlang::arg_match(type)
   
   if (is.null(path)) stop("You must specify a path.", call. = FALSE)
-  if (valuer$api_status != 200) stop("No valid connection to API has been initialized. Run valuer_access().", call. = FALSE)
+  if (valuer$analyst_status != 200) stop("No valid connection to API has been initialized. Run valuer_access().", call. = FALSE)
 
   if (type == "POST" && (is.null(json) || jsonlite::validate(json) == FALSE)) stop("You must specify a valid json.", call. = FALSE)
   
@@ -33,8 +33,8 @@ api_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json = NU
  
   resp <- httr::GET(url,
                     encode = "json",
-                    httr::authenticate(user = valuer$api_username, 
-                                       password = valuer$api_password, 
+                    httr::authenticate(user = valuer$analyst_username, 
+                                       password = valuer$analyst_password, 
                                        type = "basic"))
   
   parsed <- jsonlite::fromJSON(httr::content(resp, "text", encoding = 'UTF-8'))
@@ -63,8 +63,8 @@ api_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json = NU
     
     resp <- httr::HEAD(url,
                        encode = "json",
-                       httr::authenticate(user = valuer$api_username, 
-                                          password = valuer$api_password, 
+                       httr::authenticate(user = valuer$analyst_username, 
+                                          password = valuer$analyst_password, 
                                           type = "basic"))
     
     parsed <- NULL
@@ -75,8 +75,8 @@ api_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json = NU
     resp <- httr::POST(url,
                        body = jsonlite::fromJSON(paste0(json)),
                        encode = "json",
-                       httr::authenticate(user = valuer$api_username, 
-                                          password = valuer$api_password, 
+                       httr::authenticate(user = valuer$analyst_username, 
+                                          password = valuer$analyst_password, 
                                           type = "basic"))
     
     parsed <- jsonlite::fromJSON(httr::content(resp, "text", encoding = 'UTF-8'))
@@ -110,7 +110,7 @@ api_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json = NU
       path = path,
       response = resp
     ),
-    class = "api_class",
+    class = "analyst_class",
     comment = "Structured response from any API request including tidy data."
   )
     

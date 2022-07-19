@@ -4,9 +4,9 @@
 #'
 #' @section Notes: This function assumes that environment variables `APIUR_USER`, `APIUR_PW` and a valid license exist.
 #'
-#' @name api_meta
+#' @name analyst_meta
 #' @returns Each function returns an object of class \code{data.frame}.
-#' @seealso \code{\link{api_response}}
+#' @seealso \code{\link{analyst_response}}
 #' @param var ID or KEY of the variable to show. 
 #' See \href{https://api.value-marktdaten.de/api-docs/}{Swagger Documentation} for all IDs and KEYs available.
 #' @param segment ID or KEY of the market-segment to show. If specified together with `categories`, categories of the segment only are shown. 
@@ -21,12 +21,12 @@
 #' @examples \dontrun{pdf_docs(endpoint = 'MARKET_VALUE', deploy = TRUE)}
 NULL
 
-#' @describeIn api_meta Get information on API status.
+#' @describeIn analyst_meta Get information on API status.
 #' @export
 
-api_status <- function() {
+analyst_status <- function() {
 
-  status <- api_response(path = "status")
+  status <- analyst_response(path = "status")
 
   df <- status$values %>% dplyr::rename_all(~ stringr::str_replace(., "status.", ""))
 
@@ -35,15 +35,15 @@ api_status <- function() {
 }
 
 
-#' @describeIn api_meta Get information on API segments.
+#' @describeIn analyst_meta Get information on API segments.
 #' @export
 
-api_segments <- function(segment = NULL) {
+analyst_segments <- function(segment = NULL) {
 	
 	seg_path <- paste0("segments",
 										 ifelse(is.null(segment),"",paste0("/",segment)))
 	
-	segments <- api_response(path = seg_path)
+	segments <- analyst_response(path = seg_path)
 	
 	df <- segments$values %>% dplyr::rename_all(~ stringr::str_replace(., "segments.", ""))
 	
@@ -51,10 +51,10 @@ api_segments <- function(segment = NULL) {
 	
 }
 
-#' @describeIn api_meta Get information on API variables.
+#' @describeIn analyst_meta Get information on API variables.
 #' @export
 
-api_vars <- function(var = NULL,
+analyst_vars <- function(var = NULL,
 										 segment = NULL,
 										 categories = FALSE) {
 	
@@ -66,7 +66,7 @@ api_vars <- function(var = NULL,
 										 ifelse(categories & !is.null(segment),paste0("/categories?segment=",segment),""))
 	
 	
-	vars <- api_response(path = var_path)
+	vars <- analyst_response(path = var_path)
 	
 	df <- vars$values %>% 
 		dplyr::rename_all(~ stringr::str_replace(., "vars.", "")) %>%
@@ -76,10 +76,10 @@ api_vars <- function(var = NULL,
 	
 }
 
-#' @describeIn api_meta Get information on API spatial variables.
+#' @describeIn analyst_meta Get information on API spatial variables.
 #' @export
 
-api_spatial <- function(type = c("districts", "municipalities", "localities", "states", "u1", "u2", "u3"),
+analyst_spatial <- function(type = c("districts", "municipalities", "localities", "states", "u1", "u2", "u3"),
 												code = NULL,
 												details_state = FALSE,
 												details_district = FALSE) {
@@ -98,7 +98,7 @@ api_spatial <- function(type = c("districts", "municipalities", "localities", "s
 	spatial_path <- if (details_state) paste0(spatial_path,"?showStateDetails=true") else spatial_path
 	spatial_path <- if (details_district) paste0(spatial_path,"&showDistrictDetails=true") else spatial_path
 
-	spatial <- api_response(path = spatial_path)
+	spatial <- analyst_response(path = spatial_path)
 	
 	df <- spatial$values %>% 
 		dplyr::rename_all(~ stringr::str_replace(., paste0(type,"."), "")) 

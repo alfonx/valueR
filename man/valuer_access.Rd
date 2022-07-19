@@ -2,15 +2,15 @@
 % Please edit documentation in R/valuer_access.R
 \name{valuer_access}
 \alias{valuer_access}
-\title{Set up connection to API}
+\title{Set up connection to ANALYST and AVM}
 \usage{
 valuer_access(
   avm_url = Sys.getenv("VALUER_AVM_URL"),
   avm_username = Sys.getenv("VALUER_AVM_USER"),
   avm_password = Sys.getenv("VALUER_AVM_PW"),
-  api_url = Sys.getenv("VALUER_ANALYST_URL"),
-  api_username = Sys.getenv("VALUER_ANALYST_USER"),
-  api_password = Sys.getenv("VALUER_ANALYST_PW")
+  analyst_url = Sys.getenv("VALUER_ANALYST_URL"),
+  analyst_username = Sys.getenv("VALUER_ANALYST_USER"),
+  analyst_password = Sys.getenv("VALUER_ANALYST_PW")
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ valuer_access(
 
 \item{analyst_username}{A character vector for username with Sys.getenv("VALUER_ANALYST_USER") as default.}
 
-\item{analyst_password}{A character vector for password with Sys.getenv("VALUER_ANALYST_API_PW") as default.}
+\item{analyst_password}{A character vector for password with Sys.getenv("VALUER_ANALYST_PW") as default.}
 }
 \description{
 Using \code{valuer_access()} you can connect to any valid and licensed API from VALUE Marktdaten.
