@@ -9,11 +9,13 @@ This class extends existing classes to provide a unique and structured response 
 \section{Slots}{
 
 \describe{
-\item{\code{content}}{A list containing response content.}
-
 \item{\code{values}}{A data.frame holding the requested data in wide format.}
 
+\item{\code{json}}{Any JSON as character.}
+
 \item{\code{path}}{A character with URL path of request.}
+
+\item{\code{content}}{A list containing response content.}
 
 \item{\code{response}}{An object of class `response`, which inlcudes the entire response from request.}
 }}

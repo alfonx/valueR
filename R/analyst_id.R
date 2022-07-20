@@ -13,8 +13,7 @@
 #' @param full_stats Usually only the most basic statistics for a query are pre-computed, 
 #' but if this flag is true, a lot more statistics will be computed beforehand 
 #' (with increased loading time for the query, but potentially decreased loading time for the statistics).
-#' @examples \dontrun{
-#' analyst_id(json = '{"segment": "WHG_K","administrativeSpatialFilter": {"postalCodes": [97070]}}')
+#' @examples \dontrun{analyst_id(json = '{"segment": "WHG_K","administrativeSpatialFilter": {"postalCodes": [97070]}}')}
 #' @export
 
 analyst_id <- function(json = NULL,

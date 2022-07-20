@@ -1,8 +1,8 @@
 #' @title Meta data from ANALYST API
 #'
-#' @description Functions to receive meta data from ANALYST API.
+#' @description Function to get additional infornation on query.
 #'
-#' @returns Each function returns an object of class \code{analyst_class}.
+#' @returns Returns an object of class \code{analyst_class}.
 #' @seealso \code{\link{analyst_response}}
 #' @param id ID of the created query to be reused for querying results. 
 #' @param subquery The subquery to be returned. 
