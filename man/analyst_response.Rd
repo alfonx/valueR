@@ -22,7 +22,7 @@ Functions to set up requests from VALUE marketdata API.
 \details{
 These (internal) functions are helpers to start API requests. 
 They require valid credentials to access VALUE Marktdaten API. 
-See \code{\link{apiur_access}} to set up access.
+See \code{\link{valuer_access}} to set up access.
 }
 \section{Note}{
 

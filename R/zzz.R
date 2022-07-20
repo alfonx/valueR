@@ -2,7 +2,7 @@
 .onAttach <- function(libname, pkgname) {
   
   options(
-    apiur.quiet = F
+    valuer.quiet = F
   )
   
       tryCatch(
@@ -11,7 +11,7 @@
 
         },
         error=function(e) {
-          message("Please connect with valuer_access() to AVM or ANALYST.")
+        	packageStartupMessage("Please connect with valuer_access() to AVM or ANALYST.")
         })
 
   }

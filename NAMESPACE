@@ -2,6 +2,7 @@
 
 export("%>%")
 export(analyst_id)
+export(analyst_queries)
 export(analyst_response)
 export(analyst_segments)
 export(analyst_spatial)

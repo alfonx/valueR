@@ -26,10 +26,6 @@ Create query ID on a given JSON, with the provided filter conditions.
 The returned query ID can be used in subsequent API requests to access the data described by this query. 
 The queryId is only valid for 6 hours, before it expires and has to be posted again.
 }
-\examples{
-\dontrun{
-analyst_id(json = '{"segment": "WHG_K","administrativeSpatialFilter": {"postalCodes": [97070]}}')}
-}
 \seealso{
 \code{\link{analyst_response}}
 }

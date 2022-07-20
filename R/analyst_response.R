@@ -4,7 +4,7 @@
 #'
 #' @details These (internal) functions are helpers to start API requests. 
 #' They require valid credentials to access VALUE Marktdaten API. 
-#' See \code{\link{apiur_access}} to set up access.
+#' See \code{\link{valuer_access}} to set up access.
 #' 
 #' @section Note:
 #' \code{\link[httr:content]{httr::content()}} will use `UTF-8` for encoding.
@@ -105,9 +105,10 @@ analyst_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json 
   
   structure(
     list(
-      content = parsed,
-      values = values %>% data.frame(),
-      path = path,
+    	values = values %>% data.frame(),
+    	json = NULL,
+    	path = path,
+    	content = parsed,
       response = resp
     ),
     class = "analyst_class",

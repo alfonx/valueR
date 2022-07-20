@@ -18,6 +18,8 @@ parameter <- NULL
 s <- NULL
 segment <- NULL
 
+indication <- NULL
+quality <- NULL
 # i <- NULL
 # s <- NULL
 # e <- NULL

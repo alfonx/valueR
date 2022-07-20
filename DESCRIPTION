@@ -16,7 +16,6 @@ Imports:
     rlang,
     httr,
     magrittr,
-    doParallel,
     foreach,
     stringr,
     tibble,
