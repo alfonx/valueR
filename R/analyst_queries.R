@@ -9,8 +9,6 @@
 #' @param limit Limit of returned benchmark queries (default: 10), ignored if subquery is not `benchmarks`. 
 #' @export
 
-# test <- analyst_queries(id = 7525513)
-
 analyst_queries <- function(id = NULL,
 														subquery = c('counterpart', 'limit', 'benchmarks', 'queryId'),
 														limit = 10) {
