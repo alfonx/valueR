@@ -19,7 +19,21 @@ You can install the development version of valueR from [GitHub](https://github.c
 devtools::install_github("Immobrain/valueR")
 ```
 
-## Usage
+## API
+
+With valueR you can access two of our REST-APIs:
+
+##### **ANALYST** 
+
+VALUE ANALYST is based on our real estate market database, which provides up-to-date and comprehensive information on prices, rents and yields of the German real estate market. Most users access our database via our GUI "Analyst", we therefore refer to this access as "Analyst" in the context of valueR.
+
+##### **AVM**  
+
+VALUE AVM is a fully comprehensive solution for automated value indication and system-supported derivation of market and lending values. With the AVM, different value indications and also object and location parameters can be fetched. The latter are currently not yet implemented in valueR. 
+
+## USAGE
+
+To access VALUE Analyst and VALUE AVM you need a license with individual access data for each. Without valid credentials, the use of valueR is pointless. Please contact us if you would like a [trial license](https://www.value-marktdaten.de/en/contact/).   
 
 To load the package, run
 
@@ -27,21 +41,36 @@ To load the package, run
 library(valueR)
 ```
 
+You will be asked to provide you credentials using `valuer_access()`:
 
-## API
+``` r
+Unable to connect to AVM.
+Unable to connect to ANALYST.
+Please connect with valuer_access() to AVM or ANALYST.
+```
 
-With valueR you can access to of our REST-APIs:
+To avoid having to enter credentials every time, valueR recognizes the following system variables:
 
-##### **ANALYST** 
+* VALUER_ANALYST_URL
+* VALUER_ANALYST_USER
+* VALUER_ANALYST_PW
+* VALUER_AVM_URL
+* VALUER_AVM_USER
+* VALUER_AVM_PW
 
-VALUE ANALYST is based on our real estate market database, which provides up-to-date and comprehensive information on prices, rents and yields of the German real estate market. 
+It is highly recommended to set these variable using `Sys.setenv()` in [.Renviron](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf).
 
-##### **AVM**  
+Once you have provided your credentials, you will be logged in:
 
-VALUE AVM is a fully comprehensive solution for automated value indication and system-supported derivation of market and lending values.
+``` r
+Connected to AVM: https://avm-api.value-marktdaten.de/v1
+Connected to API: https://api.value-marktdaten.de/
+```
 
-## ACCESS
 
-To access VALUE Analyst and VALUE AVM you need a license with individual access data for each. 
+
+
+
+
 
 

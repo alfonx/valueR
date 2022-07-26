@@ -20,12 +20,12 @@ assign('analyst_status', 0, valuer)
 #' @examples \dontrun{valuer_access()}
 #' @export
 
-valuer_access <- function(avm_url = Sys.getenv("VALUER_AVM_URL"),
-													avm_username = Sys.getenv("VALUER_AVM_USER"),
-													avm_password = Sys.getenv("VALUER_AVM_PW"),
-													analyst_url = Sys.getenv("VALUER_ANALYST_URL"),
-													analyst_username = Sys.getenv("VALUER_ANALYST_USER"),
-													analyst_password = Sys.getenv("VALUER_ANALYST_PW")) {
+valuer_access <- function(avm_url = Sys.getenv("VALUER_AVM_URLa"),
+													avm_username = Sys.getenv("VALUER_AVM_USERa"),
+													avm_password = Sys.getenv("VALUER_AVM_PWa"),
+													analyst_url = Sys.getenv("VALUER_ANALYST_URLa"),
+													analyst_username = Sys.getenv("VALUER_ANALYST_USERa"),
+													analyst_password = Sys.getenv("VALUER_ANALYST_PWa")) {
   
   if (is.null(avm_username) | avm_username == "") message("You must provide a non-empty avm_username to connect.")
   if (is.null(avm_password) | avm_password == "") message("You must provide a non-empty avm_password to connect.")
