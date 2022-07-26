@@ -5,12 +5,12 @@
 \title{Set up connection to ANALYST and AVM}
 \usage{
 valuer_access(
-  avm_url = Sys.getenv("VALUER_AVM_URL"),
-  avm_username = Sys.getenv("VALUER_AVM_USER"),
-  avm_password = Sys.getenv("VALUER_AVM_PW"),
-  analyst_url = Sys.getenv("VALUER_ANALYST_URL"),
-  analyst_username = Sys.getenv("VALUER_ANALYST_USER"),
-  analyst_password = Sys.getenv("VALUER_ANALYST_PW")
+  avm_url = Sys.getenv("VALUER_AVM_URLa"),
+  avm_username = Sys.getenv("VALUER_AVM_USERa"),
+  avm_password = Sys.getenv("VALUER_AVM_PWa"),
+  analyst_url = Sys.getenv("VALUER_ANALYST_URLa"),
+  analyst_username = Sys.getenv("VALUER_ANALYST_USERa"),
+  analyst_password = Sys.getenv("VALUER_ANALYST_PWa")
 )
 }
 \arguments{
