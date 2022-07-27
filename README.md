@@ -155,20 +155,64 @@ Each of these functions return a `data.frame()` inlcuding all avalaible
 descriptions.
 
 To start a query, you must create a query on a given segment, with the
-provided filter conditions. The returned queryId can be used in
-subsequent API requests to access the data described by this query. The
-queryId is only valid for 6 hours, before it expires and has to be
-posted again. A query must be provided as JSON, e.g.
+provided filter conditions using `analyst_id()`. The returned queryId
+can be used in subsequent API requests to access the data described by
+this query. The queryId is only valid for 6 hours, before it expires and
+has to be posted again. A query must be provided as JSON, e.g.
 
 ``` r
-id <- analyst_id(json = '{
-    "segment": "WHG_K",
-    "administrativeSpatialFilter": {"postalCodes": [23558]}
-}', 
-query_id = T)
+id <- analyst_id(json = '{"segment": "WHG_K","administrativeSpatialFilter": {"postalCodes": [23558]}}',query_id = T)
 id
 #> [1] 17780526
 ```
 
 Note that due to `query_id = T`, `analyst_id()` will return only an
-integer that can be used for further requests.
+integer that can be used for further requests that return an object of
+class `analyst_class`. This class is a structured list of objects from
+which you can choose. In most cases, you probably want to refer to
+`values` that include a tidy `data.frame()` of results. But you might
+also use the returned `JSON` to start a new query. Let’s say, you want
+to create an ID for the counterpart to your original request, you could
+than use `analyst_queries()` to get the counterpart
+
+``` r
+counterpart <- analyst_queries(id = id, subquery = 'counterpart')
+class(counterpart)
+#> [1] "analyst_class"
+```
+
+and then getting a new ID for that counterpart:
+
+``` r
+counterpart$json
+#> {"segment":["WHG_M"],"administrativeSpatialFilter":{"postalCodes":[23558]}}
+
+id_counter <- analyst_id(json = counterpart$json,query_id = T)
+id_counter
+#> [1] 17791137
+```
+
+``` r
+orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearParts = 12) 
+orig <- orig$values %>% dplyr::mutate(id = 'orig')
+
+counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearParts = 12)
+
+counter <- counter$values %>% dplyr::mutate(id = 'counter')
+
+results <- orig %>% dplyr::bind_rows(counter)
+
+str(results)
+#> 'data.frame':    252 obs. of  11 variables:
+#>  $ titleDe        : chr  "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" ...
+#>  $ titleEn        : chr  "Trend Price per square metre (Mean) and count of offers" "Trend Price per square metre (Mean) and count of offers" "Trend Price per square metre (Mean) and count of offers" "Trend Price per square metre (Mean) and count of offers" ...
+#>  $ unitDe         : chr  "€/m²" "€/m²" "€/m²" "€/m²" ...
+#>  $ unitEn         : chr  "€/m²" "€/m²" "€/m²" "€/m²" ...
+#>  $ yearParts      : int  12 12 12 12 12 12 12 12 12 12 ...
+#>  $ date           : chr  "2012-01-15" "2012-02-14" "2012-03-15" "2012-04-15" ...
+#>  $ value          : num  1968 1929 2080 1983 2012 ...
+#>  $ count          : int  35 35 37 32 37 44 51 47 43 43 ...
+#>  $ yearPartLabelEn: chr  "1'12" "2'12" "3'12" "4'12" ...
+#>  $ yearPartLabelDe: chr  "1'12" "2'12" "3'12" "4'12" ...
+#>  $ id             : chr  "orig" "orig" "orig" "orig" ...
+```
