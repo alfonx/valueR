@@ -20,7 +20,7 @@ assign('analyst_status', 0, valuer)
 #' @examples \dontrun{valuer_access()}
 #' @export
 
-valuer_access <- function(avm_url = "https://avm-api.value-marktdaten.de/",
+valuer_access <- function(avm_url = Sys.getenv("VALUER_AVM_URL"),
 													avm_username = Sys.getenv("VALUER_AVM_USER"),
 													avm_password = Sys.getenv("VALUER_AVM_PW"),
 													analyst_url = "https://api.value-marktdaten.de/v1",
@@ -29,11 +29,11 @@ valuer_access <- function(avm_url = "https://avm-api.value-marktdaten.de/",
   
   if (is.null(avm_username) | avm_username == "") message("You must provide a non-empty avm_username to connect.")
   if (is.null(avm_password) | avm_password == "") message("You must provide a non-empty avm_password to connect.")
-	if (is.null(avm_url) | avm_url == "") message("You must provide a non-empty avm_url to connect.")
+	avm_url <- if (is.null(avm_url) | avm_url == "") "https://avm-api.value-marktdaten.de/v1" else avm_url
 
 	if (is.null(analyst_username) | analyst_username == "") message("You must provide a non-empty analyst_username to connect.")
 	if (is.null(analyst_password) | analyst_password == "") message("You must provide a non-empty analyst_password to connect.")
-	if (is.null(analyst_url) | analyst_url == "") message("You must provide a non-empty analyst_url to connect.")
+	analyst_url <- if (is.null(analyst_url) | analyst_url == "") "https://api.value-marktdaten.de" else analyst_url
 	
   assign('avm_password', avm_password, valuer)
   assign('avm_username', avm_username, valuer)

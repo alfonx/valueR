@@ -33,7 +33,6 @@ avm_response <- function(path = NULL,
 
   url <- paste0(valuer$avmurl, path)
   
-  
   if (type == "GET") {
 
   resp <- httr::GET(url,
@@ -51,7 +50,7 @@ avm_response <- function(path = NULL,
   values <- tryCatch(
     {
       data.frame(parsed) %>%
-        dplyr::select(-durationMillis) %>%
+        dplyr::select(-dplyr::contains('durationMillis')) %>%
         dplyr::rename_all(~ stringr::str_replace(., "endpoints.", ""))
       }, error = function(e){NULL})
   
