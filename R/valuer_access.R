@@ -21,11 +21,11 @@ assign('analyst_status', 0, valuer)
 #' @export
 
 valuer_access <- function(avm_url = "https://api.value-marktdaten.de/",
-													avm_username = Sys.getenv("VALUER_AVM_USERa"),
-													avm_password = Sys.getenv("VALUER_AVM_PWa"),
+													avm_username = Sys.getenv("VALUER_AVM_USER"),
+													avm_password = Sys.getenv("VALUER_AVM_PW"),
 													analyst_url = "https://avm-api.value-marktdaten.de/v1",
-													analyst_username = Sys.getenv("VALUER_ANALYST_USERa"),
-													analyst_password = Sys.getenv("VALUER_ANALYST_PWa")) {
+													analyst_username = Sys.getenv("VALUER_ANALYST_USER"),
+													analyst_password = Sys.getenv("VALUER_ANALYST_PW")) {
   
   if (is.null(avm_username) | avm_username == "") message("You must provide a non-empty avm_username to connect.")
   if (is.null(avm_password) | avm_password == "") message("You must provide a non-empty avm_password to connect.")

@@ -4,7 +4,7 @@ The goal of valueR is to facilitate access to real estate market data from VALUE
 
 ## Development
 
-The basis of this package are R functions that we have used for our own access to our data and that we would like to make available to our users. The package is still under development and we are happy to receive hints on enhancements to the functionality.
+This package emerged from our own analyses of VALUE market data using R that we would like to make available to our users. The package is still under development and we are happy to receive hints on enhancements to the functionality.
 
 ## Installation
 
@@ -23,9 +23,13 @@ With valueR you can access two of our REST-APIs:
 
 VALUE ANALYST is based on our real estate market database, which provides up-to-date and comprehensive information on prices, rents and yields of the German real estate market. Most users access our database via our GUI "Analyst", we therefore refer to this access as "Analyst" in the context of valueR.
 
+If you have a VALUE license with API/REST access, you can find the Swagger documentation [here](https://api.value-marktdaten.de/api-docs/).
+
 ##### **AVM**
 
 VALUE AVM is a fully comprehensive solution for automated value indication and system-supported derivation of market and lending values. With the AVM, different value indications and also object and location parameters can be fetched. The latter are currently not yet implemented in valueR.
+
+If you have a VALUE license with AVM-API/REST access, you can find the Swagger documentation [here](https://avm-api.value-marktdaten.de/v1/api-docs/).
 
 ## USAGE
 
@@ -40,6 +44,7 @@ library(valueR)
 You will be asked to provide you credentials using `valuer_access()`:
 
 ``` r
+...
 Unable to connect to AVM.
 Unable to connect to ANALYST.
 Please connect with valuer_access() to AVM or ANALYST.
