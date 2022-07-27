@@ -1,4 +1,4 @@
-# valueR <img src='inst/logo/logo.png' align="right" height="80" />
+# valueR <img src='inst/logo/hex.png' align="right" height="80" />
 
 The goal of valueR is to facilitate access to real estate market data from VALUE AG's Market Data team via our API interfaces with R.
 
@@ -11,7 +11,7 @@ The basis of this package are R functions that we have used for our own access t
 You can install the development version of valueR from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+# install.packages("devtools", dependencies = T)
 devtools::install_github("Immobrain/valueR")
 ```
 

@@ -8,6 +8,8 @@ Description: This package offers tidy functions to receive data from VALUE marke
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends:
+    R (>= 4.1.0)
 Imports: 
     dplyr,
     tidyr,
