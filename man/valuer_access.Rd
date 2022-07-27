@@ -5,22 +5,22 @@
 \title{Set up connection to ANALYST and AVM}
 \usage{
 valuer_access(
-  avm_url = Sys.getenv("VALUER_AVM_URLa"),
-  avm_username = Sys.getenv("VALUER_AVM_USERa"),
-  avm_password = Sys.getenv("VALUER_AVM_PWa"),
-  analyst_url = Sys.getenv("VALUER_ANALYST_URLa"),
-  analyst_username = Sys.getenv("VALUER_ANALYST_USERa"),
-  analyst_password = Sys.getenv("VALUER_ANALYST_PWa")
+  avm_url = "https://api.value-marktdaten.de/",
+  avm_username = Sys.getenv("VALUER_AVM_USER"),
+  avm_password = Sys.getenv("VALUER_AVM_PW"),
+  analyst_url = "https://avm-api.value-marktdaten.de/v1",
+  analyst_username = Sys.getenv("VALUER_ANALYST_USER"),
+  analyst_password = Sys.getenv("VALUER_ANALYST_PW")
 )
 }
 \arguments{
-\item{avm_url}{A valid url from which you want to access our AVM with Sys.getenv("VALUER_AVM_URL") as default.}
+\item{avm_url}{A valid url from which you want to access our AVM.}
 
 \item{avm_username}{A character vector for username with Sys.getenv("VALUER_AVM_USER") as default.}
 
 \item{avm_password}{A character vector for password with Sys.getenv("VALUER_AVM_PW") as default.}
 
-\item{analyst_url}{A valid url from which you want to access our AVM with Sys.getenv("VALUER_ANALYST_URL") as default.}
+\item{analyst_url}{A valid url from which you want to access our ANALYST.}
 
 \item{analyst_username}{A character vector for username with Sys.getenv("VALUER_ANALYST_USER") as default.}
 

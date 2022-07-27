@@ -20,10 +20,10 @@ assign('analyst_status', 0, valuer)
 #' @examples \dontrun{valuer_access()}
 #' @export
 
-valuer_access <- function(avm_url = "https://api.value-marktdaten.de/",
+valuer_access <- function(avm_url = "https://avm-api.value-marktdaten.de/",
 													avm_username = Sys.getenv("VALUER_AVM_USER"),
 													avm_password = Sys.getenv("VALUER_AVM_PW"),
-													analyst_url = "https://avm-api.value-marktdaten.de/v1",
+													analyst_url = "https://api.value-marktdaten.de/v1",
 													analyst_username = Sys.getenv("VALUER_ANALYST_USER"),
 													analyst_password = Sys.getenv("VALUER_ANALYST_PW")) {
   
