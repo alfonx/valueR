@@ -47,10 +47,9 @@ Please connect with valuer_access() to AVM or ANALYST.
 
 To avoid having to enter credentials every time, valueR recognizes the following system variables:
 
--   VALUER_ANALYST_URL
 -   VALUER_ANALYST_USER
 -   VALUER_ANALYST_PW
--   VALUER_AVM_URL
+
 -   VALUER_AVM_USER
 -   VALUER_AVM_PW
 

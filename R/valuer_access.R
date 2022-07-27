@@ -11,19 +11,19 @@ assign('analyst_status', 0, valuer)
 #' @section Note: You must have a valid license.
 #' 
 #' @seealso \code{\link{avm_response}}, \code{\link[httr:GET]{httr::GET()}}
-#' @param avm_url A valid url from which you want to access our AVM with Sys.getenv("VALUER_AVM_URL") as default.
+#' @param avm_url A valid url from which you want to access our AVM.
 #' @param avm_username A character vector for username with Sys.getenv("VALUER_AVM_USER") as default.
 #' @param avm_password A character vector for password with Sys.getenv("VALUER_AVM_PW") as default.
-#' @param analyst_url A valid url from which you want to access our AVM with Sys.getenv("VALUER_ANALYST_URL") as default.
+#' @param analyst_url A valid url from which you want to access our ANALYST.
 #' @param analyst_username A character vector for username with Sys.getenv("VALUER_ANALYST_USER") as default.
 #' @param analyst_password A character vector for password with Sys.getenv("VALUER_ANALYST_PW") as default.
 #' @examples \dontrun{valuer_access()}
 #' @export
 
-valuer_access <- function(avm_url = Sys.getenv("VALUER_AVM_URLa"),
+valuer_access <- function(avm_url = "https://api.value-marktdaten.de/",
 													avm_username = Sys.getenv("VALUER_AVM_USERa"),
 													avm_password = Sys.getenv("VALUER_AVM_PWa"),
-													analyst_url = Sys.getenv("VALUER_ANALYST_URLa"),
+													analyst_url = "https://avm-api.value-marktdaten.de/v1",
 													analyst_username = Sys.getenv("VALUER_ANALYST_USERa"),
 													analyst_password = Sys.getenv("VALUER_ANALYST_PWa")) {
   
