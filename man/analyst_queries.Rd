@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyst_queries.R
 \name{analyst_queries}
 \alias{analyst_queries}
-\title{Meta data from ANALYST API}
+\title{Queries from ANALYST API}
 \usage{
 analyst_queries(
   id = NULL,

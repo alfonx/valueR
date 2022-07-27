@@ -20,7 +20,7 @@ An object of class \code{\link{analyst_class}}.
 Functions to set up requests from VALUE marketdata API.
 }
 \details{
-These (internal) functions are helpers to start API requests. 
+These (internal) functions are helpers to start ANALYST-API requests. 
 They require valid credentials to access VALUE Marktdaten API. 
 See \code{\link{valuer_access}} to set up access.
 }

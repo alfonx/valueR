@@ -1,4 +1,4 @@
-#' @title Meta data from ANALYST API
+#' @title Queries from ANALYST API
 #'
 #' @description Function to get additional infornation on query.
 #'
@@ -17,7 +17,7 @@ analyst_queries <- function(id = NULL,
 
 	if (is.null(id) & subquery != 'limit') stop("You must provide an ID to get subquery '", subquery,"'.")
 	
-	if (is.null(id)) {	
+	if (is.null(id) | subquery == 'limit') {	
 		
 		path <- paste0("queries/limit")
 		
@@ -29,7 +29,7 @@ analyst_queries <- function(id = NULL,
 			
 			} else if (subquery == 'benchmarks') {
 				
-				path <- paste0("queries/",id,"/",limit)
+				path <- paste0("queries/",id,"/",subquery,"?limit=",limit)
 				
 			} else if (subquery == 'queryId') {
 				
@@ -50,5 +50,3 @@ analyst_queries <- function(id = NULL,
 
 
 }
-
-

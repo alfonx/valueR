@@ -20,9 +20,7 @@ avm(
 
 \item{metrics}{If TRUE, model metrics will be included if available and licensed for chosen indication.}
 
-\item{details}{If TRUE, details will be included if available and licensed for chosen indication.}
-
-\item{ignore_error}{If TRUE, \code{\link{avm_response}} will not stop on error. 
+\item{details}{If TRUE, details will be included if available and licensed for chosen indication.
 This is usefull for parallel requests to avoid that function stops on single errors.
 Defaults to \code{FALSE}.}
 }
@@ -48,7 +46,7 @@ json <- '{
 "quality_furnishings": 1
 }'
 	
-avm(indication = 'COMPARATIVE_VALUE', json = json, ignore_error = T)
+avm(indication = 'COMPARATIVE_VALUE', json = json)
 
 }
 }

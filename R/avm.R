@@ -15,7 +15,6 @@
 #' @param json Request body in JSON format.
 #' @param metrics If TRUE, model metrics will be included if available and licensed for chosen indication. 
 #' @param details If TRUE, details will be included if available and licensed for chosen indication.
-#' @param ignore_error If TRUE, \code{\link{avm_response}} will not stop on error. 
 #' This is usefull for parallel requests to avoid that function stops on single errors.
 #' Defaults to \code{FALSE}.
 #' @examples \dontrun{
@@ -28,7 +27,7 @@
 #' "quality_furnishings": 1
 #' }'
 #' 	
-#' avm(indication = 'COMPARATIVE_VALUE', json = json, ignore_error = T)
+#' avm(indication = 'COMPARATIVE_VALUE', json = json)
 #' 
 #' }
 #' @export

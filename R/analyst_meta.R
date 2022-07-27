@@ -55,8 +55,8 @@ analyst_segments <- function(segment = NULL) {
 #' @export
 
 analyst_vars <- function(var = NULL,
-										 segment = NULL,
-										 categories = FALSE) {
+												 segment = NULL,
+												 categories = FALSE) {
 	
 	if (categories & is.null(var)) stop("You must provide var to get categories.")
 	
@@ -106,6 +106,5 @@ analyst_spatial <- function(type = c("districts", "municipalities", "localities"
 	df
 	
 }
-
 
 

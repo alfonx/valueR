@@ -4,7 +4,7 @@ The goal of valueR is to facilitate access to real estate market data from VALUE
 
 ## Development
 
-This package emerged from our own analyses of VALUE market data using R that we would like to make available to our users. The package is still under development and we are happy to receive hints on enhancements to the functionality.
+This package emerged from our own analyses of VALUE market data using R that we would like to make available to our users. The package is still under active development and we are happy to receive hints on enhancements to the functionality.
 
 ## Installation
 
@@ -60,9 +60,12 @@ To avoid having to enter credentials every time, valueR recognizes the following
 
 It is highly recommended to set these variable using `Sys.setenv()` in [.Renviron](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf).
 
+Developers with access to our testing-systems might also set `VALUER_AVM_URL` and `VALUER_ANALYST_URL` which both default to our live-systems if not provided. 
+
 Once you have provided your credentials, you will be logged in:
 
 ``` r
 Connected to AVM: https://avm-api.value-marktdaten.de/v1
 Connected to API: https://api.value-marktdaten.de/
 ```
+

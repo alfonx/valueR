@@ -27,7 +27,7 @@ The returned query ID can be used in subsequent API requests to access the data 
 The queryId is only valid for 6 hours, before it expires and has to be posted again.
 }
 \examples{
-\dontrun{analyst_id(json = '{"segment": "WHG_K","administrativeSpatialFilter": {"postalCodes": [97070]}}')}
+\dontrun{analyst_id(json = '{"segment": "WHG_K","administrativeSpatialFilter": {"postalCodes": [23558]}}')}
 }
 \seealso{
 \code{\link{analyst_response}}

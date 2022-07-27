@@ -29,7 +29,7 @@ avm_response <- function(path = NULL,
 
   if (type == "POST" && (is.null(json) || jsonlite::validate(json) == FALSE)) stop("You must specify a valid json.", call. = FALSE)
   
-  if (!startsWith(path, "/")) path <- paste0("/", path)
+  path <- if (!startsWith(path, "/")) paste0("/", path) else path
 
   url <- paste0(valuer$avmurl, path)
   
