@@ -1,4 +1,4 @@
-# valueR <img src='inst/logo/hex.png' align="right" height="80" />
+# valueR <img src='inst/logo/hex.png' align="right" height="160" />
 
 The goal of valueR is to facilitate access to real estate market data from VALUE AG's Market Data team via our API interfaces with R.
 
