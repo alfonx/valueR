@@ -6,7 +6,7 @@
 #' @seealso , \code{\link{analyst_response}} \code{\link{analyst_id}}
 #' @param id ID of the created query to be reused for querying results. 
 #' @param subquery The subquery to be returned. 
-#' @param variable A target variable for `aggregated`, `percentile` or `timeline` results. If `NULL` and `subquery == 'timeline'`, valid variables for youry will be returned.
+#' @param variable A target variable for `aggregated`, `percentile` or `timeline` results. If `NULL` and `subquery == 'timeline'`, valid variables for query will be returned.
 #' Ignored in all other subqueries. 
 #' @param aggregation Aggregation mode for subquery `aggregated`, ignored in all other subqueries. 
 #' @param percentile Percentile between 0 and 100 for subquery `percentile`, ignored in all other subqueries.
@@ -78,14 +78,7 @@ analyst_results <- function(id = NULL,
 				
 				if (is.null(variable)) {
 					
-					opt <- options(show.error.messages = FALSE)
-					on.exit(options(opt))
-					
-					
-					message("Please provide one of the following variable to get timeline results for your queryId ", id, ":\n",
-									paste0(queries$values$key, collapse = ", "),".")
-
-					stop()
+					message("You will find available variables to get timeline results for your queryId ", id, " at values$keys.")
 
 				} else if (!(variable %in% queries$values$key)) {
 					
@@ -98,6 +91,15 @@ analyst_results <- function(id = NULL,
 				}
 				
 			}
+	
+	if (subquery == 'timeline' && is.null(variable)) {
+		
+		
+		queries$json <- jsonlite::toJSON(jsonlite::fromJSON(httr::content(queries$response, "text", encoding = 'UTF-8')))
+		
+		return(queries)
+	
+		} else {
 
   queries <- analyst_response(path = path)
   
@@ -105,6 +107,7 @@ analyst_results <- function(id = NULL,
   
   return(queries)
 
+		}
 
 }
 

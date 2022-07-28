@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# valueR <img src='inst/logo/hex.png' align="right" height="160" />
+# valueR <img src="inst/logo/hex.png" align="right" height="160"/>
 
 The goal of valueR is to facilitate access to real estate market data
 from VALUE AG’s Market Data team via our API interfaces with R.
@@ -61,18 +61,14 @@ To load the package, run
 
 ``` r
 library(valueR)
-#> Connected to AVM: https://avm-api-stage.value-marktdaten.de/v1
-#> Connected to API: https://api.value-marktdaten.de/v1
-#> 
 ```
 
 You will be asked to provide you credentials using `valuer_access()`:
 
 ``` r
-...
-Unable to connect to AVM.
-Unable to connect to ANALYST.
-Please connect with valuer_access() to AVM or ANALYST.
+#> Unable to connect to AVM.
+#> Unable to connect to ANALYST.
+#> Please connect with valuer_access() to AVM or ANALYST.
 ```
 
 To avoid having to enter credentials every time, valueR recognizes the
@@ -96,8 +92,8 @@ live-systems if not provided.
 Once you have provided your credentials, you will be logged in:
 
 ``` r
-Connected to AVM: https://avm-api.value-marktdaten.de/v1
-Connected to API: https://api.value-marktdaten.de/
+#> Connected to AVM: https://avm-api.value-marktdaten.de/v1
+#> Connected to ANALYST: https://api.value-marktdaten.de/
 ```
 
 ## ANALYST EXAMPLES
@@ -136,29 +132,23 @@ analyst_vars() %>% dplyr::select(key, titleEn) %>% head(5)
 or spatial information
 
 ``` r
-analyst_spatial(type = 'municipalities') %>% head(5)
-#>   municipalityCode municipality         affixTitle   municipalityNameFull
-#> 1          1001000    Flensburg            , Stadt       Flensburg, Stadt
-#> 2          1002000         Kiel , Landeshauptstadt Kiel, Landeshauptstadt
-#> 3          1003000       Lübeck       , Hansestadt     Lübeck, Hansestadt
-#> 4          1004000   Neumünster            , Stadt      Neumünster, Stadt
-#> 5          1051001   Albersdorf               <NA>                   <NA>
-#>   affixRegional
-#> 1          <NA>
-#> 2          <NA>
-#> 3          <NA>
-#> 4          <NA>
-#> 5          <NA>
+analyst_spatial(type = 'municipalities') %>% head(5) %>% dplyr::select(municipalityCode,municipality)
+#>   municipalityCode municipality
+#> 1          1001000    Flensburg
+#> 2          1002000         Kiel
+#> 3          1003000       Lübeck
+#> 4          1004000   Neumünster
+#> 5          1051001   Albersdorf
 ```
 
-Each of these functions return a `data.frame()` inlcuding all avalaible
+Each of these functions return a `data.frame()` inlcuding all available
 descriptions.
 
 To start a query, you must create a query on a given segment, with the
-provided filter conditions using `analyst_id()`. The returned queryId
-can be used in subsequent API requests to access the data described by
-this query. The queryId is only valid for 6 hours, before it expires and
-has to be posted again. A query must be provided as JSON, e.g.
+provided filter conditions using `analyst_id()`. The returned ID can be
+used in subsequent API requests to access the data described by this
+query. The ID is only valid for 6 hours, before it expires and has to be
+posted again. A query must be provided as JSON, e.g.
 
 ``` r
 id <- analyst_id(json = '{"segment": "WHG_K","administrativeSpatialFilter": {"postalCodes": [23558]}}',query_id = T)
@@ -166,14 +156,17 @@ id
 #> [1] 17780526
 ```
 
-Note that due to `query_id = T`, `analyst_id()` will return only an
-integer that can be used for further requests that return an object of
-class `analyst_class`. This class is a structured list of objects from
-which you can choose. In most cases, you probably want to refer to
-`values` that include a tidy `data.frame()` of results. But you might
-also use the returned `JSON` to start a new query. Let’s say, you want
-to create an ID for the counterpart to your original request, you could
-than use `analyst_queries()` to get the counterpart
+To create a valid JSON, you can also create a query in our ANALYST GUI
+and get the corresponding JSON output. Note that due to `query_id = T`,
+`analyst_id()` will return only an integer that can be used for further
+requests that return an object of class `analyst_class`.
+
+This class is a structured list of objects from which you can choose. In
+most cases, you probably want to refer to `values` that include a tidy
+`data.frame()` of results. But you might also use the returned `JSON` to
+start a new query. Let’s say, you want to create an ID for the
+counterpart to your original request, you could than use
+`analyst_queries()` to get the counterpart
 
 ``` r
 counterpart <- analyst_queries(id = id, subquery = 'counterpart')
@@ -192,27 +185,49 @@ id_counter
 #> [1] 17791137
 ```
 
-You’re then ready to plot results of your original ID and its
-counterpart:
+You’re then ready to get all results of your original request and its
+counterpart using `analyst_results()`. E.g. to get a timeline of both
+requests, set `subquery = 'timeline'` and provide `yearParts`.
 
 ``` r
+
+# Leave variable empty to get available variables:
+analyst_results(id, subquery = 'timeline', yearParts = 2)$values$key
+#> You will find available variables to get timeline results for your queryId 17780526 at values$keys.
+#> [1] "einnahmen_kaufpreisfaktor" "einnahmen_rendite"        
+#> [3] "kosten_je_flaeche"         "kstn_kaufpreis"
+
 orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearParts = 2) 
-orig_seg <- analyst_queries(id = id, subquery = 'queryId')$values$segment
+orig_seg <- analyst_queries(id = id, subquery = 'queryId')$values$segment # get segment of ID
 orig_v <- orig$values %>% dplyr::mutate(segment = orig_seg)
 
 counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearParts = 2)
-counter_seg <- analyst_queries(id = id_counter, subquery = 'queryId')$values$segment
+counter_seg <- analyst_queries(id = id_counter, subquery = 'queryId')$values$segment # get segment of counter ID
 counter_v <- counter$values %>% dplyr::mutate(segment = counter_seg)
 
-results <- orig_v %>% dplyr::bind_rows(counter_v) %>% dplyr::group_by(segment) %>% dplyr::mutate(index = value / value[date == min(date)] * 100)
+# combine both queries and compute index to plot results:
 
-library(ggplot2)
-
-ggplot(results, aes(x = reorder(yearPartLabelEn, as.Date(date)), y = index, group = segment, color = segment)) +
-    geom_line() +
-    xlab("date") +
-    ylab("index") +
-    theme_minimal()
+results <- orig_v %>% dplyr::bind_rows(counter_v) %>% 
+    dplyr::group_by(segment) %>% 
+    dplyr::mutate(index = value / value[date == min(date)] * 100)
 ```
 
-<img src="man/figures/README-timeline-1.png" width="100%" />
+<img src="man/figures/README-plot-1.png" width="100%" />
+
+With `analyst_results()` and the corresponding ID, all predefined
+results can be retrieved. You can also get all single offers of the
+query by setting `subquery = 'offers'` to run your own statistics and
+analysis.
+
+Please note that due to technical reasons a maximum of 100,000
+individual offers can be retrieved. Currently, valueR does not yet
+contain an automated procedure to retrieve larger data sets. This
+limitation will be fixed soon.
+
+Please also note that the ANALYST API also includes an endpoint to
+retrieve georeferencing of an address. Currently, this endpoint cannot
+be accessed with valueR. This limitation should also be fixed soon.
+
+## AVM EXAMPLES
+
+coming soon…

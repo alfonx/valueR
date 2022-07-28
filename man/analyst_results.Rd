@@ -18,7 +18,7 @@ analyst_results(
 
 \item{subquery}{The subquery to be returned.}
 
-\item{variable}{A target variable for `aggregated`, `percentile` or `timeline` results. If `NULL` and `subquery == 'timeline'`, valid variables for youry will be returned.
+\item{variable}{A target variable for `aggregated`, `percentile` or `timeline` results. If `NULL` and `subquery == 'timeline'`, valid variables for query will be returned.
 Ignored in all other subqueries.}
 
 \item{aggregation}{Aggregation mode for subquery `aggregated`, ignored in all other subqueries.}
