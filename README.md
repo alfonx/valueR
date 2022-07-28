@@ -136,19 +136,19 @@ analyst_vars() %>% dplyr::select(key, titleEn) %>% head(5)
 or spatial information
 
 ``` r
-analyst_spatial(type = 'municipalities',details_state = T,details_district = T) %>% head(5)
+analyst_spatial(type = 'municipalities') %>% head(5)
 #>   municipalityCode municipality         affixTitle   municipalityNameFull
 #> 1          1001000    Flensburg            , Stadt       Flensburg, Stadt
 #> 2          1002000         Kiel , Landeshauptstadt Kiel, Landeshauptstadt
 #> 3          1003000       Lübeck       , Hansestadt     Lübeck, Hansestadt
 #> 4          1004000   Neumünster            , Stadt      Neumünster, Stadt
 #> 5          1051001   Albersdorf               <NA>                   <NA>
-#>   districtCode     district stateCode              state affixRegional
-#> 1         1001    Flensburg         1 Schleswig-Holstein          <NA>
-#> 2         1002         Kiel         1 Schleswig-Holstein          <NA>
-#> 3         1003       Lübeck         1 Schleswig-Holstein          <NA>
-#> 4         1004   Neumünster         1 Schleswig-Holstein          <NA>
-#> 5         1051 Dithmarschen         1 Schleswig-Holstein          <NA>
+#>   affixRegional
+#> 1          <NA>
+#> 2          <NA>
+#> 3          <NA>
+#> 4          <NA>
+#> 5          <NA>
 ```
 
 Each of these functions return a `data.frame()` inlcuding all avalaible
@@ -192,27 +192,27 @@ id_counter
 #> [1] 17791137
 ```
 
+You’re then ready to plot results of your original ID and its
+counterpart:
+
 ``` r
-orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearParts = 12) 
-orig <- orig$values %>% dplyr::mutate(id = 'orig')
+orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearParts = 2) 
+orig_seg <- analyst_queries(id = id, subquery = 'queryId')$values$segment
+orig_v <- orig$values %>% dplyr::mutate(segment = orig_seg)
 
-counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearParts = 12)
+counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearParts = 2)
+counter_seg <- analyst_queries(id = id_counter, subquery = 'queryId')$values$segment
+counter_v <- counter$values %>% dplyr::mutate(segment = counter_seg)
 
-counter <- counter$values %>% dplyr::mutate(id = 'counter')
+results <- orig_v %>% dplyr::bind_rows(counter_v) %>% dplyr::group_by(segment) %>% dplyr::mutate(index = value / value[date == min(date)] * 100)
 
-results <- orig %>% dplyr::bind_rows(counter)
+library(ggplot2)
 
-str(results)
-#> 'data.frame':    252 obs. of  11 variables:
-#>  $ titleDe        : chr  "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" "Entwicklung Kosten je Fläche (arith. Mittel) und Anzahl Angebote" ...
-#>  $ titleEn        : chr  "Trend Price per square metre (Mean) and count of offers" "Trend Price per square metre (Mean) and count of offers" "Trend Price per square metre (Mean) and count of offers" "Trend Price per square metre (Mean) and count of offers" ...
-#>  $ unitDe         : chr  "€/m²" "€/m²" "€/m²" "€/m²" ...
-#>  $ unitEn         : chr  "€/m²" "€/m²" "€/m²" "€/m²" ...
-#>  $ yearParts      : int  12 12 12 12 12 12 12 12 12 12 ...
-#>  $ date           : chr  "2012-01-15" "2012-02-14" "2012-03-15" "2012-04-15" ...
-#>  $ value          : num  1968 1929 2080 1983 2012 ...
-#>  $ count          : int  35 35 37 32 37 44 51 47 43 43 ...
-#>  $ yearPartLabelEn: chr  "1'12" "2'12" "3'12" "4'12" ...
-#>  $ yearPartLabelDe: chr  "1'12" "2'12" "3'12" "4'12" ...
-#>  $ id             : chr  "orig" "orig" "orig" "orig" ...
+ggplot(results, aes(x = reorder(yearPartLabelEn, as.Date(date)), y = index, group = segment, color = segment)) +
+    geom_line() +
+    xlab("date") +
+    ylab("index") +
+    theme_minimal()
 ```
+
+<img src="man/figures/README-timeline-1.png" width="100%" />

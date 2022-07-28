@@ -108,7 +108,7 @@ analyst_vars() %>% dplyr::select(key, titleEn) %>% head(5)
 or spatial information
 
 ```{r spatial}
-analyst_spatial(type = 'municipalities',details_state = T,details_district = T) %>% head(5)
+analyst_spatial(type = 'municipalities') %>% head(5)
 ```
 
 Each of these functions return a `data.frame()` inlcuding all avalaible descriptions. 
@@ -150,18 +150,27 @@ id_counter
 
 ```
 
+You're then ready to plot results of your original ID and its counterpart:
 
-```{r timeline}
-orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearParts = 12) 
-orig <- orig$values %>% dplyr::mutate(id = 'orig')
+```{r timeline, fig.height = 3}
+orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearParts = 2) 
+orig_seg <- analyst_queries(id = id, subquery = 'queryId')$values$segment
+orig_v <- orig$values %>% dplyr::mutate(segment = orig_seg)
 
-counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearParts = 12)
+counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearParts = 2)
+counter_seg <- analyst_queries(id = id_counter, subquery = 'queryId')$values$segment
+counter_v <- counter$values %>% dplyr::mutate(segment = counter_seg)
 
-counter <- counter$values %>% dplyr::mutate(id = 'counter')
+results <- orig_v %>% dplyr::bind_rows(counter_v) %>% dplyr::group_by(segment) %>% dplyr::mutate(index = value / value[date == min(date)] * 100)
 
-results <- orig %>% dplyr::bind_rows(counter)
+library(ggplot2)
 
-str(results)
+ggplot(results, aes(x = reorder(yearPartLabelEn, as.Date(date)), y = index, group = segment, color = segment)) +
+	geom_line() +
+	xlab("date") +
+	ylab("index") +
+	theme_minimal()
+
 
 
 ```
