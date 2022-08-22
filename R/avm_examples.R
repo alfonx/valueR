@@ -16,7 +16,6 @@
 
 avm_examples <- function(){
 
-
 	oo <- options("scipen")
 	options(scipen = 999)
 	on.exit(options(scipen = oo))
@@ -24,13 +23,28 @@ avm_examples <- function(){
 	ep <- avm_indications()
 	
 	example_values <- foreach::foreach(i = unique(ep$relativeUrl), .combine = dplyr::bind_rows) %do% {
+
+		# i <- "/objectInformation"
 		
 		path <- if (i == "/indicate/comparativeValue") paste0(i,"?marketStats=true&comparables=BESTCOORDS") else i
 		
 		i_resp <- avm_response(path = paste0(i, "/specification"))
 		response <- i_resp[["response"]]
 		request <- httr::content(response, as = "parsed")
-		json <- jsonlite::toJSON(request[["exampleRequest"]])
+		json <- jsonlite::toJSON(request[["exampleRequest"]], auto_unbox  = T)
+
+		# jsono <- jsonlite::fromJSON(json)
+		# jsono$address <- NULL
+		# 
+		# json <- jsonlite::toJSON(jsono)
+		
+		# resp <- httr::POST("https://avm-api-stage.value-marktdaten.de/v1/objectInformation",
+		# 									 body = jsonlite::fromJSON(json, simplifyVector = F),
+		# 									 encode = "json",
+		# 									 httr::authenticate(user = Sys.getenv("VALUER_AVM_USER"), 
+		# 									 									 password = Sys.getenv("VALUER_AVM_PW"), 
+		# 									 									 type = "basic"))
+		
 		
 		p_resp <- avm_response(path = path, type = 'POST', json = json)
 		

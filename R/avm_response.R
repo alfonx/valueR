@@ -103,7 +103,7 @@ avm_response <- function(path = NULL,
   } else if (type == "POST") {
   	
     resp <- httr::POST(url,
-                       body = jsonlite::fromJSON(paste0(json)),
+                       body = jsonlite::fromJSON(json, simplifyVector = F),
                        encode = "json",
                        httr::authenticate(user = valuer$avm_username, 
                                           password = valuer$avm_password, 
