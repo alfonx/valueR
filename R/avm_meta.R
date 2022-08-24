@@ -32,7 +32,7 @@ avm_status <- function() {
 avm_endpoints <- function() {
   
   
-  if (is.null(valuer$avm_indications)) {
+  if (is.null(valuer$avm_endpoints)) {
   
   
   	resp <- httr::GET(paste0(valuer$avmurl, "/openapi.json"),
@@ -75,11 +75,11 @@ avm_endpoints <- function() {
   	dplyr::select(endpoint = key, name, relativeUrl, specification, accessGranted, description) %>%
   	dplyr::filter(endpoint != 'GEOREFS')
   
-  assign('avm_indications', endpoints_full, valuer)
+  assign('avm_endpoints', endpoints_full, valuer)
   
   } else {
     
-  	endpoints_full <- valuer$avm_indications
+  	endpoints_full <- valuer$avm_endpoints
     
   }
   

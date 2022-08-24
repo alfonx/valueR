@@ -14,15 +14,17 @@ avm(
 )
 }
 \arguments{
-\item{indication}{The indication you want to send your request to, e.g. `MARKET_VALUE`. See also \code{\link{avm_indications}} to get all licensed indications.}
+\item{indication}{The indication you want to send your request to, e.g. `RENTAL_VALUE`. See also \code{\link{avm_endpoints}} to get all licensed indications.}
 
 \item{json}{Request body in JSON format.}
 
 \item{metrics}{If TRUE, model metrics will be included if available and licensed for chosen indication.}
 
-\item{details}{If TRUE, details will be included if available and licensed for chosen indication.
-This is usefull for parallel requests to avoid that function stops on single errors.
-Defaults to \code{FALSE}.}
+\item{details}{If TRUE, details will be included if available and licensed for chosen indication.}
+
+\item{market_stats}{If TRUE, market stats will be included if available and licensed for chosen indication.}
+
+\item{comparables}{If TRUE, comparables will be included if available and licensed for chosen indication.}
 }
 \value{
 An object of class \code{\link{avm_class}}.
@@ -51,5 +53,5 @@ avm(indication = 'COMPARATIVE_VALUE', json = json)
 }
 }
 \seealso{
-\code{\link{avm_response}}, \code{\link{avm_indications}}, \code{\link{avm_segments}}
+\code{\link{avm_response}}, \code{\link{avm_endpoints}}, \code{\link{avm_segments}}
 }

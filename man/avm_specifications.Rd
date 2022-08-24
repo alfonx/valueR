@@ -25,5 +25,5 @@ and all output paramaters including information on JSON output.
 Columns with example, minimal or maximal values might also contain dates, that's why they return characters.
 }
 \seealso{
-\code{\link{avm_response}}, \code{\link{avm_indications}}, \code{\link{avm_segments}}
+\code{\link{avm_response}}, \code{\link{avm_endpoints}}, \code{\link{avm_segments}}
 }

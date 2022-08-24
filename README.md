@@ -192,16 +192,16 @@ requests, set `subquery = 'timeline'` and provide `yearParts`.
 ``` r
 
 # Leave variable empty to get available variables:
-analyst_results(id, subquery = 'timeline', yearParts = 2)$values$key
+analyst_results(id, subquery = 'timeline', yearparts = 2)$values$key
 #> You will find available variables to get timeline results for your queryId 17780526 at values$keys.
 #> [1] "einnahmen_kaufpreisfaktor" "einnahmen_rendite"        
 #> [3] "kosten_je_flaeche"         "kstn_kaufpreis"
 
-orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearParts = 2) 
+orig <- analyst_results(id, subquery = 'timeline', variable = 'kosten_je_flaeche', yearparts = 2) 
 orig_seg <- analyst_queries(id = id, subquery = 'queryId')$values$segment # get segment of ID
 orig_v <- orig$values %>% dplyr::mutate(segment = orig_seg)
 
-counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearParts = 2)
+counter <- analyst_results(id_counter, subquery = 'timeline', variable = 'kstn_miete_kalt_pqm', yearparts = 2)
 counter_seg <- analyst_queries(id = id_counter, subquery = 'queryId')$values$segment # get segment of counter ID
 counter_v <- counter$values %>% dplyr::mutate(segment = counter_seg)
 

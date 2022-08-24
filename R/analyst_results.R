@@ -18,16 +18,16 @@ analyst_results <- function(id = NULL,
 														variable = NULL,
 														aggregation = c('AVG', 'MEDIAN', 'AVGFG', 'STDDEV', 'MIN', 'MAX', 'COUNT'),
 														percentile = 50,
-														yearParts = 1) {
+														yearparts = 1) {
 
 	if (is.null(id)) stop("You must provide an ID to get subquery '", subquery,"'.")
 	
 	subquery <- rlang::arg_match(subquery)
 	aggregation <- rlang::arg_match(aggregation)
 	
-	if (subquery == 'timeline' & !(yearParts %in% c(1,2,4,12))) {
+	if (subquery == 'timeline' & !(yearparts %in% c(1,2,4,12))) {
 
-		stop("You must provide integer 1, 2, 4 or 12 to yearParts for subquery 'timeline'")
+		stop("You must provide integer 1, 2, 4 or 12 to yearparts for subquery 'timeline'")
 
 	}
 	
@@ -86,7 +86,7 @@ analyst_results <- function(id = NULL,
 					
 				} else {
 				
-				path <- paste0("queryResults/",id,"/timeline?yearParts=",yearParts,"&aggregation=",aggregation,"&timelineVariable=", variable)
+				path <- paste0("queryResults/",id,"/timeline?yearParts=",yearparts,"&aggregation=",aggregation,"&timelineVariable=", variable)
 				
 				}
 				

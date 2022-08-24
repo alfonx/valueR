@@ -9,14 +9,14 @@
 #' 
 #' @returns An object of class \code{\link{avm_class}}.
 #' 
-#' @seealso \code{\link{avm_response}}, \code{\link{avm_indications}}, \code{\link{avm_segments}}
+#' @seealso \code{\link{avm_response}}, \code{\link{avm_endpoints}}, \code{\link{avm_segments}}
 #' @importFrom foreach %do%
-#' @param indication The indication you want to send your request to, e.g. `MARKET_VALUE`. See also \code{\link{avm_indications}} to get all licensed indications. 
+#' @param indication The indication you want to send your request to, e.g. `RENTAL_VALUE`. See also \code{\link{avm_endpoints}} to get all licensed indications. 
 #' @param json Request body in JSON format.
 #' @param metrics If TRUE, model metrics will be included if available and licensed for chosen indication. 
 #' @param details If TRUE, details will be included if available and licensed for chosen indication.
-#' This is usefull for parallel requests to avoid that function stops on single errors.
-#' Defaults to \code{FALSE}.
+#' @param market_stats If TRUE, market stats will be included if available and licensed for chosen indication.
+#' @param comparables If TRUE, comparables will be included if available and licensed for chosen indication.
 #' @examples \dontrun{
 #' 	
 #' json <- '{
@@ -32,6 +32,7 @@
 #' }
 #' @export
 
+
 avm <- function(indication = NULL,
 								json = NULL, 
 								metrics = FALSE, 
@@ -44,7 +45,7 @@ avm <- function(indication = NULL,
 	options(scipen = 999)
 	on.exit(options(scipen = oo))
 	
-  if (!(indication %in% valuer$avm_indications$indication)) stop("You asked for an unknown indication", call. = FALSE)
+  if (!(indication %in% valuer$avm_endpoints$endpoint)) stop("You asked for an unknown indication", call. = FALSE)
 
   if (is.null(json) || jsonlite::validate(json) == FALSE) stop("You must specify a valid json.", call. = FALSE)
   
@@ -52,7 +53,7 @@ avm <- function(indication = NULL,
 	
 	indication_in <- indication
 	
-  relative_url <- valuer$avm_indications %>% dplyr::filter(indication == indication_in) 
+  relative_url <- valuer$avm_endpoints %>% dplyr::filter(endpoint == indication_in) 
   
   path <- relative_url$relativeUrl
 

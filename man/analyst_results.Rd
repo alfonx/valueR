@@ -10,7 +10,7 @@ analyst_results(
   variable = NULL,
   aggregation = c("AVG", "MEDIAN", "AVGFG", "STDDEV", "MIN", "MAX", "COUNT"),
   percentile = 50,
-  yearParts = 1
+  yearparts = 1
 )
 }
 \arguments{
