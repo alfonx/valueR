@@ -7,14 +7,10 @@
 An object of class \code{list()} including \code{data.frames}
 }
 \usage{
-avm_specifications(
-  indication = NULL,
-  segments = NULL,
-  language = c("EN", "DE")
-)
+avm_specifications(endpoint = NULL, segments = NULL, language = c("EN", "DE"))
 }
 \arguments{
-\item{indication}{A vector of indication endpoints. See also \code{\link{avm_indications}} to get all valid endpoints.}
+\item{endpoint}{A vector of indication endpoints with \code{specification = T}. See also \code{\link{avm_endpoints}} to get all valid endpoints.}
 
 \item{segments}{A vector of segments. See also \code{\link{avm_segments}} to get all valid segments.}
 

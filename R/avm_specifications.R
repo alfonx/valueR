@@ -9,15 +9,16 @@
 #'
 #' @seealso \code{\link{avm_response}}, \code{\link{avm_indications}}, \code{\link{avm_segments}}
 #' @importFrom foreach %do%
-#' @param indication A vector of indication endpoints. See also \code{\link{avm_indications}} to get all valid endpoints. 
+#' @param endpoint A vector of indication endpoints with \code{specification = T}. See also \code{\link{avm_endpoints}} to get all valid endpoints. 
 #' @param segments A vector of segments. See also \code{\link{avm_segments}} to get all valid segments.
 #' @param language Specification of english or german language used to format character columns with englisch settings as DEFAULT. If set to `DE`, big (`.`) and decimal (`,`) marks will be set and dates to `dd.mm.yyy`.
 #' @format An object of class \code{list()} including \code{data.frames}
 #' @export
 
+# test <- avm_specifications()
 
-avm_specifications <- function(indication = NULL,
-                               segments = NULL,
+avm_specifications <- function(endpoint = NULL,
+															 segments = NULL,
 															 language = c('EN','DE')) {
 	
 	language <- match.arg(language)
@@ -26,115 +27,155 @@ avm_specifications <- function(indication = NULL,
 	options(scipen = 999)
 	on.exit(options(scipen = oo))
 	
-	ep <- avm_indications()
+	ep <- avm_endpoints() %>% dplyr::filter(specification == T)
 
-  if (!all(indication %in% unique(ep$indication))) stop("You asked for unknown indication", call. = FALSE)
+  if (!all(endpoint %in% unique(ep$endpoint))) stop("You asked for an unknown endpoint", call. = FALSE)
 
-  if (is.null(indication)) {
-    
-  	indication <- unique(ep$indication)
-  
-  	}
+  ep_in <- if (is.null(endpoint)) unique(ep$endpoint) else endpoint
 
   # get inputParameters
-
 
   param <- list()
 
   foreach::foreach(i = ep$relativeUrl, .combine = "c") %do% {
-
-    ep_name <- ep$indication[ep$relativeUrl == i]
-
+    ep_name <- ep$endpoint[ep$relativeUrl == i]
     param[[ep_name]] <- avm_response(path = paste0(i, "/specification"))
-  
-    }
-
-  input <- foreach::foreach(e = unique(ep$indication), .combine = dplyr::bind_rows) %do% {
-    
-  	foreach::foreach(s = param[[e]]$content$segments, .combine = dplyr::bind_rows) %do% {
-      
-  		input_orig <- as.data.frame(param[[e]]$content$inputParameters[s]) %>%
-        dplyr::rename_all(~ stringr::str_replace(., paste0(s, "."), "")) %>%
-        dplyr::mutate(minValue = {if ("minValue" %in% names(.)) as.character(minValue) else NA}) %>% 
-  			dplyr::mutate(maxValue = {if ("minValue" %in% names(.)) as.character(maxValue) else NA})
-
-      input <- input_orig %>%
-        dplyr::mutate(segment = s, endpoint = e) %>%
-        dplyr::select(endpoint, segment, colnames(input_orig))
-    
-      }
-  
   }
   
-  output <- foreach::foreach(e = unique(ep$indication), .combine = dplyr::bind_rows) %do% {
-    
+
+  input <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
+  	foreach::foreach(s = param[[e]]$content$segments, .combine = dplyr::bind_rows) %do% {
+ 		if (is.null(s)) {
+  			input <- data.frame()
+  		} else {
+  			input_orig <- as.data.frame(param[[e]]$content$inputParameters[s]) %>%
+        	dplyr::rename_all(~ stringr::str_replace(., paste0(s, "."), "")) %>%
+        	dplyr::mutate(minValue = {if ("minValue" %in% names(.)) as.character(minValue) else NA}) %>% 
+  				dplyr::mutate(maxValue = {if ("maxValue" %in% names(.)) as.character(maxValue) else NA}) %>%
+  				dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA})
+
+      		input <- input_orig %>%
+        		dplyr::mutate(segment = s, endpoint = e) %>%
+        		dplyr::select(endpoint, segment, colnames(input_orig))
+  		}
+  	}
+  }
+  
+  segments <- if (is.null(segments)) unique(input$segment) else segments
+  
+
+  output <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
   	output_orig <- as.data.frame(param[[e]]$content$outputParameters) %>%
       dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA})
-
-    output <- output_orig %>%
+   output <- output_orig %>%
       dplyr::mutate(endpoint = e) %>%
       dplyr::select(endpoint, colnames(output_orig))
   
     }
 
-  categories <- foreach::foreach(e = unique(ep$indication), .combine = dplyr::bind_rows) %do% {
-    
+  categories <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
   	foreach::foreach(s = unique(input$segment), .combine = dplyr::bind_rows) %do% {
-      
   		foreach::foreach(c = unique(input$parameter[input$type == "category"]), .combine = dplyr::bind_rows) %do% {
-        
   			categories <- data.frame(input$categories[input$parameter == c & input$endpoint == e & input$segment == s][1])
         categories_param <- categories %>% dplyr::mutate(parameter = c)
         categories_param <- categories_param %>%
           dplyr::mutate(segment = s, endpoint = e) %>%
           dplyr::select(endpoint, segment, parameter, colnames(categories))
-      
         }
-    
   		}
-  
-  	}
-
-  json <- foreach::foreach(e = unique(ep$indication), .combine = dplyr::bind_rows) %do% {
-    
-  	foreach::foreach(c = unique(output$parameter[output$type == "json" & 
-  																							 	!is.na(output$additionalHints) & 
-  																							 	output$endpoint == e]), .combine = dplyr::bind_rows) %do% {
-      
-  		json_orig <- data.frame(jsonlite::fromJSON(output$additionalHints[output$parameter == c][1])) %>%
-        dplyr::mutate(parameter = c)
-
-      json <- json_orig %>%
-        dplyr::mutate(endpoint = e) %>%
-        dplyr::select(endpoint, parameter, colnames(json_orig))
-    
-      }
-  
-  	}
-
-  if (is.null(segments)) {
-    
-  	segments <- unique(input$segment)
-  
   }
-  
+ 
+  json <- suppressWarnings(foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
+  					foreach::foreach(c = unique(output$parameter[output$type == "json" & !is.na(output$model) & output$endpoint == e]),
+  													 .combine = dplyr::bind_rows) %do% {
+  		if (is.null(c)) {
+  			json <- data.frame()
+  		} else {
+  		
+  		json_orig <- output %>% dplyr::filter(parameter == c) %>% 
+  			dplyr::select(model) %>% 
+  			tidyr::unnest(cols = c(model)) %>%
+  			dplyr::select(properties) %>% 
+  			tidyr::unnest(cols = c(properties)) %>%
+  			dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA}) %>%
+  			dplyr::mutate_if(is.logical, as.character)
+  		
+  		json <- json_orig %>%
+        dplyr::mutate(endpoint = e, parameter = c) %>%
+        dplyr::select(endpoint, parameter, colnames(json_orig))
+  		
+  		i <- 0
+  		
+			if ('json' %in% json$type) {
+				
+			repeat {
+
+				p <- unique(json$property[json$type == "json" & !is.na(json$model)])
+				i <- i + 1
+
+				json_orig_model <- json %>% dplyr::filter(property == p[i]) %>%
+					dplyr::select(model) %>%
+					tidyr::unnest(cols = c(model)) %>%
+					dplyr::select(properties) %>%
+					tidyr::unnest(cols = c(properties)) %>%
+					dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA}) %>%
+					dplyr::mutate_if(is.logical, as.character)
+
+				json_model <- json_orig_model %>%
+					dplyr::mutate(endpoint = e, parameter = p[i]) %>%
+					dplyr::select(endpoint, parameter, colnames(json_orig_model)) %>%
+					dplyr::mutate(key = T)
+
+				json <- json %>% dplyr::bind_rows(json_model)
+
+				if (all(json$property[json$type == 'json'] %in% json$parameter)) break
+
+			}
+
+			}
+
+			return(json)
+
+			}
+
+  		}
+			
+  }
+			
+  )
+
+			json <- json %>% dplyr::select(-model)
+			
+			
+			json_cat <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
+					foreach::foreach(c = unique(json$parameter[json$type == "category"]), .combine = dplyr::bind_rows) %do% {
+						j_categories <- data.frame(json$categories[json$parameter == c & json$endpoint == e][1])
+						j_categories_param <- j_categories %>% dplyr::mutate(parameter = c)
+						j_categories_param <- j_categories_param %>%
+							dplyr::mutate(endpoint = e) %>%
+							dplyr::select(endpoint, parameter, colnames(j_categories))
+				}
+			}
+			
+
+
   input <- input %>% dplyr::mutate(minValue = suppressWarnings(convert(minValue,parameter, language)),
   													maxValue = suppressWarnings(convert(maxValue,parameter, language)))
   
-  inputParameters <- input %>% dplyr::filter(endpoint %in% indication & segment %in% segments)
-  inputCategories <- categories %>% dplyr::filter(endpoint %in% indication & segment %in% segments)
-  outputParameters <- output %>% dplyr::filter(endpoint %in% indication)
-  outputJSON <- json %>% dplyr::filter(endpoint %in% indication)
-
+  inputParameters <- input %>% dplyr::filter(endpoint %in% ep_in & segment %in% segments)
+  inputCategories <- categories %>% dplyr::filter(endpoint %in% ep_in & segment %in% segments)
+  outputParameters <- output %>% dplyr::filter(endpoint %in% ep_in)
+  outputJSON <- json %>% dplyr::filter(endpoint %in% ep_in)
+  outputJSONCategories <- json_cat %>% dplyr::filter(endpoint %in% ep_in)
+  
   structure(
   	list(
   		inputParameters = inputParameters,
   		inputCategories = inputCategories,
   		outputParameters = outputParameters,
-  		outputJSON = outputJSON
-  	),
-  	class = "avm_spec"
-  )
+  		outputJSON = outputJSON,
+  		outputJSONCategories = outputJSONCategories 
+  	))
 
 
   }

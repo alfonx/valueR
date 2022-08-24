@@ -3,16 +3,13 @@
 \name{avm_meta}
 \alias{avm_meta}
 \alias{avm_status}
-\alias{avm_indications}
-\alias{avm_indications_all}
+\alias{avm_endpoints}
 \alias{avm_segments}
 \title{Meta data from AVM API}
 \usage{
 avm_status()
 
-avm_indications()
-
-avm_indications_all()
+avm_endpoints()
 
 avm_segments()
 }
@@ -26,9 +23,7 @@ Functions to receive meta data from AVM API.
 \itemize{
 \item \code{avm_status}: Get information on AVM status.
 
-\item \code{avm_indications}: Get information on AVM endpoints with access granted.
-
-\item \code{avm_indications_all}: Get information on all AVM endpoints.
+\item \code{avm_endpoints}: Get information on AVM endpoints with access granted.
 
 \item \code{avm_segments}: Get segments by AVM endpoint.
 }}
