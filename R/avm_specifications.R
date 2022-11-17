@@ -14,7 +14,8 @@
 #' @param language Specification of english or german language used to format character columns with englisch settings as DEFAULT. If set to `DE`, big (`.`) and decimal (`,`) marks will be set and dates to `dd.mm.yyy`.
 #' @format An object of class \code{list()} including \code{data.frames}
 #' @export
- 
+#' 
+
 avm_specifications <- function(endpoint = NULL,
 															 segments = NULL,
 															 language = c('EN','DE')) {
@@ -63,7 +64,9 @@ avm_specifications <- function(endpoint = NULL,
   
 
   output <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
-  	output_orig <- as.data.frame(param[[e]]$content$outputParameters) %>%
+  	output_orig <- as.data.frame(param[[e]]$content$outputParameters)
+  	output_orig <- output_orig %>%
+  		dplyr::mutate(exampleValue = {if (class(output_orig$exampleValue) == "data.frame") as.character(jsonlite::toJSON(exampleValue)) else exampleValue}) %>% 
       dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA})
    output <- output_orig %>%
       dplyr::mutate(endpoint = e) %>%

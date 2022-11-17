@@ -31,8 +31,15 @@ avm_examples <- function(){
 		request <- httr::content(response, as = "parsed")
 		json <- jsonlite::toJSON(request[["exampleRequest"]], auto_unbox  = T)
 
+		if (i == '/locationInformation') {
 		
-		p_resp <- avm_response(path = path, type = 'POST', json = json)
+			p_resp <- avm_response(path = "/locationInformation?address='Hansestraße 14, 23558 Lübeck'", type = 'GET')
+		
+		} else {
+			
+			p_resp <- avm_response(path = path, type = 'POST', json = json)
+			
+		}
 		
 		ename <- ep[["endpoint"]][ep[["relativeUrl"]] == i]
 		
