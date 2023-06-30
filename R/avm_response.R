@@ -126,7 +126,7 @@ avm_response <- function(path = NULL,
     
     values <- values_enframe %>%
       dplyr::filter(lengths(value) == 1) %>%
-      tidyr::pivot_wider(value) %>% tidyr::unnest(colnames(.))
+      tidyr::pivot_wider(id_cols = value) %>% tidyr::unnest(colnames(.))
     
     ranges <- values_enframe %>%
       dplyr::filter(stringr::str_detect(name,"ranges")) %>%
