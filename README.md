@@ -20,7 +20,7 @@ You can install the development version of valueR from
 
 ``` r
 # install.packages("devtools", dependencies = T)
-devtools::install_github("Immobrain/valueR")
+devtools::install_github("alfonx/valueR")
 ```
 
 ## API
