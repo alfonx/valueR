@@ -139,12 +139,14 @@ avm_specifications <- function(endpoint = NULL,
 
 				json <- json %>% dplyr::bind_rows(json_model)
 
-				if (all(json$property[json$type == 'json'] %in% json$parameter)) break
+				# if (all(json$property[json$type == 'json'] %in% json$parameter)) break
+				if (i == 10) break
 
 			}
 
 			}
 
+  		json <- json %>% dplyr::distinct(.keep_all = T)
 			return(json)
 
 			}
