@@ -159,9 +159,9 @@ id
 To create a valid JSON, you can also create a query in our ANALYST GUI
 and get the corresponding JSON output. Note that due to `query_id = T`,
 `analyst_id()` will return only an integer that can be used for further
-requests that return an object of class `list`.
+requests, which in turn return an object of class `list`.
 
-This class is a structured list of objects from which you can choose. In
+This structured list contain several objects from which you can choose. In
 most cases, you probably want to refer to `values` that include a tidy
 `data.frame()` of results. But you might also use the returned `JSON` to
 start a new query. Let’s say, you want to create an ID for the
@@ -219,7 +219,7 @@ analysis.
 
 Please also note that the ANALYST API also includes an endpoint to
 retrieve georeferencing of an address. Currently, this endpoint cannot
-be accessed with valueR. This limitation should also be fixed soon.
+be accessed with valueR. This limitation might be fixed soon.
 
 ## AVM EXAMPLES
 
