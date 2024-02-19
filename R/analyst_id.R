@@ -6,7 +6,7 @@
 #' The queryId is only valid for 6 hours, before it expires and has to be posted again.
 #'
 #' @returns If \code{query_id = TRUE}, \code{\link{analyst_id}} returns an integer, 
-#' otherwise an object of class \code{analyst_class}, see \code{\link{analyst_class}}.
+#' otherwise a list.
 #' @seealso \code{\link{analyst_response}}
 #' @param json Request body in JSON format.
 #' @param query_id If TRUE, only the query ID is returned.

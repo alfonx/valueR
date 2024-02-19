@@ -14,6 +14,7 @@
 #' @examples \dontrun{avm_examples()}
 #' @export
 
+
 avm_examples <- function(){
 
 	oo <- options("scipen")

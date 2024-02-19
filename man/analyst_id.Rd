@@ -17,7 +17,7 @@ but if this flag is true, a lot more statistics will be computed beforehand
 }
 \value{
 If \code{query_id = TRUE}, \code{\link{analyst_id}} returns an integer, 
-otherwise an object of class \code{analyst_class}, see \code{\link{analyst_class}}.
+otherwise a list.
 }
 \description{
 Create query ID on a given JSON, with the provided filter conditions.

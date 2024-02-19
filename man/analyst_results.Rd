@@ -28,7 +28,7 @@ Ignored in all other subqueries.}
 \item{yearparts}{Partitioning of timeline with 1 for years, 2 for half-years, 4 for quarters and 12 for months.}
 }
 \value{
-Returns an object of class \code{analyst_class}.
+Returns an object of class \code{list}.
 }
 \description{
 Function to get results from your query ID.

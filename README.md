@@ -159,7 +159,7 @@ id
 To create a valid JSON, you can also create a query in our ANALYST GUI
 and get the corresponding JSON output. Note that due to `query_id = T`,
 `analyst_id()` will return only an integer that can be used for further
-requests that return an object of class `analyst_class`.
+requests that return an object of class `list`.
 
 This class is a structured list of objects from which you can choose. In
 most cases, you probably want to refer to `values` that include a tidy
@@ -170,8 +170,6 @@ counterpart to your original request, you could than use
 
 ``` r
 counterpart <- analyst_queries(id = id, subquery = 'counterpart')
-class(counterpart)
-#> [1] "analyst_class"
 ```
 
 and then getting a new ID for that counterpart:
@@ -219,15 +217,10 @@ results can be retrieved. You can also get all single offers of the
 query by setting `subquery = 'offers'` to run your own statistics and
 analysis.
 
-Please note that due to technical reasons a maximum of 100,000
-individual offers can be retrieved. Currently, valueR does not yet
-contain an automated procedure to retrieve larger data sets. This
-limitation will be fixed soon.
-
 Please also note that the ANALYST API also includes an endpoint to
 retrieve georeferencing of an address. Currently, this endpoint cannot
 be accessed with valueR. This limitation should also be fixed soon.
 
 ## AVM EXAMPLES
 
-coming soon…
+coming soon upon request…

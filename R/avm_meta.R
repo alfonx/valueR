@@ -33,8 +33,7 @@ avm_endpoints <- function() {
   
   
   if (is.null(valuer$avm_endpoints)) {
-  
-  
+
   	resp <- httr::GET(paste0(valuer$avmurl, "/openapi.json"),
   										encode = "json",
   										httr::authenticate(user = valuer$avm_username, 
@@ -53,7 +52,7 @@ avm_endpoints <- function() {
   	
   	endpoints <- parsed$tags %>% dplyr::left_join(values, by = c("name" = "val")) %>% dplyr::filter(type != 'head')
   	
-  	specs <- endpoints %>% dplyr::filter(stringr::str_detect(relativeUrl, 'specification')) %>% dplyr::mutate(specification = T) %>% dplyr::select(specification, name)
+  	specs <- endpoints %>% dplyr::filter(stringr::str_detect(relativeUrl, 'specification')) %>% dplyr::mutate(specification = T) %>% dplyr::select(specification, name) %>% dplyr::distinct(name, .keep_all = T)
   	
   	endpoints <- endpoints %>% 
   		dplyr::filter(!stringr::str_detect(relativeUrl, 'specification|documentation|legend')) %>% 

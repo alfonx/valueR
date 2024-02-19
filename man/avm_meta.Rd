@@ -29,8 +29,6 @@ Functions to receive meta data from AVM API.
 }}
 
 \section{Examples}{
-
-
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{#colnames(avm.endpoints())
 }\if{html}{\out{</div>}}
 }

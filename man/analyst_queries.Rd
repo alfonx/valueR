@@ -18,7 +18,7 @@ analyst_queries(
 \item{limit}{Limit of returned benchmark queries (default: 10), ignored if subquery is not `benchmarks`.}
 }
 \value{
-Returns an object of class \code{analyst_class}.
+Returns an object of class \code{list}.
 }
 \description{
 Function to get additional infornation on query.

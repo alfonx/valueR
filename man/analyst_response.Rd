@@ -14,7 +14,7 @@ analyst_response(path = NULL, type = c("GET", "POST", "HEAD"), json = NULL)
 \item{json}{Request body in JSON format.}
 }
 \value{
-An object of class \code{\link{analyst_class}}.
+An object of class \code{\link{list}}.
 }
 \description{
 Functions to set up requests from VALUE marketdata API.

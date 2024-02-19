@@ -2,7 +2,7 @@
 #'
 #' @description Function to get results from your query ID.
 #'
-#' @returns Returns an object of class \code{analyst_class}.
+#' @returns Returns an object of class \code{list}.
 #' @seealso , \code{\link{analyst_response}} \code{\link{analyst_id}}
 #' @param id ID of the created query to be reused for querying results. 
 #' @param subquery The subquery to be returned. 

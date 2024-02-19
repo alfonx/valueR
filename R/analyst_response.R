@@ -13,7 +13,7 @@
 #' @param path Path to the desired endpoint.
 #' @param type One of GET, POST or HEAD.
 #' @param json Request body in JSON format.
-#' @returns An object of class \code{\link{analyst_class}}.
+#' @returns An object of class \code{\link{list}}.
 #' @examples \dontrun{analyst_response(path = "status")}
 #' @export
 
@@ -116,7 +116,6 @@ analyst_response <- function(path = NULL, type = c("GET", "POST", "HEAD"), json 
     	content = parsed,
       response = resp
     ),
-    class = "analyst_class",
     comment = "Structured response from any ANALYST-API request including tidy data."
   )
     
