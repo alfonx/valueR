@@ -219,8 +219,8 @@ analysis.
 
 Please also note that the ANALYST API also includes an endpoint to
 retrieve georeferencing of an address. Currently, this endpoint cannot
-be accessed with valueR. This limitation might be fixed soon.
+be accessed with valueR.
 
 ## AVM EXAMPLES
 
-coming soon upon request…
+coming upon request…
