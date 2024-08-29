@@ -95,14 +95,18 @@ avm_specifications <- function(endpoint = NULL,
   				dplyr::select(endpoint, parameter, colnames(out_categories))
   	}
   }
-  
+
   json <- suppressWarnings(foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
   					foreach::foreach(c = unique(output$parameter[output$type == "json" & output$endpoint == e]),
   													 .combine = dplyr::bind_rows) %do% {
+
+  													 	
+  													 										 	
   		if (is.null(c)) {
   			json <- data.frame()
   		} else {
   		
+  			
   		json_orig <- output %>% dplyr::filter(parameter == c) %>% 
   			dplyr::select(model) %>% 
   			tidyr::unnest(cols = c(model)) %>%
@@ -118,7 +122,7 @@ avm_specifications <- function(endpoint = NULL,
   		i <- 0
   		
 			if ('json' %in% json$type) {
-				
+
 			repeat {
 
 				p <- unique(json$property[json$type == "json" & !is.na(json$model)])
@@ -139,7 +143,6 @@ avm_specifications <- function(endpoint = NULL,
 
 				json <- json %>% dplyr::bind_rows(json_model)
 
-				# if (all(json$property[json$type == 'json'] %in% json$parameter)) break
 				if (i == 10) break
 
 			}
@@ -151,15 +154,19 @@ avm_specifications <- function(endpoint = NULL,
 
 			}
 
-  		}
+	}
+  	
+  	
 			
   }
 			
   )
 
-			json <- json %>% dplyr::select(-model)
+	if ('model' %in% colnames(json)) {
+	 	json <- json %>% dplyr::select(-model)
+	}
 			
-			json_cat <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
+  json_cat <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
 					foreach::foreach(c = unique(json$property[json$type == "category"]), .combine = dplyr::bind_rows) %do% {
 						j_categories <- data.frame(json$categories[json$property == c & json$endpoint == e][1])
 						j_categories_param <- j_categories %>% dplyr::mutate(property = c)
