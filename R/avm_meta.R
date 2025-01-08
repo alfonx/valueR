@@ -50,20 +50,21 @@ avm_endpoints <- function() {
   		dplyr::mutate(val = as.character(value)) %>%
   		dplyr::select(val, relativeUrl = name, type = value_id)
   	
-  	endpoints <- parsed$tags %>% dplyr::left_join(values, by = c("name" = "val")) %>% dplyr::filter(type != 'head')
+  	endpoints <- parsed$tags %>% dplyr::left_join(values, by = c("name" = "val")) %>% dplyr::filter(type != 'head' & name != 'Miscellaneous')
   	
   	specs <- endpoints %>% dplyr::filter(stringr::str_detect(relativeUrl, 'specification')) %>% dplyr::mutate(specification = T) %>% dplyr::select(specification, name) %>% dplyr::distinct(name, .keep_all = T)
   	
   	endpoints <- endpoints %>% 
   		dplyr::filter(!stringr::str_detect(relativeUrl, 'specification|documentation|legend')) %>% 
   		dplyr::mutate(key = toupper(snakecase::to_any_case(gsub("/","",gsub("/indicate/", "", relativeUrl))))) %>%
+  	  dplyr::filter(key != 'STATUS') %>%
   		dplyr::left_join(specs, by = c("name"))
+ 
   	
-
   license_status <- foreach::foreach(e = unique(endpoints$relativeUrl), .combine = dplyr::bind_rows) %do% {
   	
       get_license <- avm_response(path = e, type = 'HEAD')
-      
+    
       license <- data.frame(relativeUrl = e,
                             accessGranted = ifelse(get_license$response$status_code %in% c(200,204), TRUE, FALSE)) 
       

@@ -71,7 +71,6 @@ valuer_access <- function(avm_url = Sys.getenv("VALUER_AVM_URL"),
   	})
   
   
-
   
   # reset avm_indications to get right specifications, see avm_indications()
   
