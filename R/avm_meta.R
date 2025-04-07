@@ -56,7 +56,7 @@ avm_endpoints <- function() {
   	
   	endpoints <- endpoints %>% 
   		dplyr::filter(!stringr::str_detect(relativeUrl, 'specification|documentation|legend')) %>% 
-  		dplyr::mutate(key = toupper(snakecase::to_any_case(gsub("/","",gsub("/indicate/", "", relativeUrl))))) %>%
+  		dplyr::mutate(key = toupper(snakecase::to_any_case(gsub("/","",gsub("/objectInformation/", "", gsub("/indicate/", "", relativeUrl)))))) %>%
   	  dplyr::filter(key != 'STATUS') %>%
   		dplyr::left_join(specs, by = c("name"))
  

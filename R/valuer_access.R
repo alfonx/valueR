@@ -20,6 +20,9 @@ assign('analyst_status', 0, valuer)
 #' @examples \dontrun{valuer_access()}
 #' @export
 
+# library(valueR)
+# valuer_access()
+
 valuer_access <- function(avm_url = Sys.getenv("VALUER_AVM_URL"),
 													avm_username = Sys.getenv("VALUER_AVM_USER"),
 													avm_password = Sys.getenv("VALUER_AVM_PW"),

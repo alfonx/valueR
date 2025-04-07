@@ -35,6 +35,7 @@ avm_response <- function(path = NULL,
   
   if (type == "GET") {
 
+  url <- 'https://avm-api-stage.value-marktdaten.de/v1/status'  
   resp <- httr::GET(url,
                     encode = "json",
                     httr::authenticate(user = valuer$avm_username, 
@@ -42,7 +43,7 @@ avm_response <- function(path = NULL,
                                        type = "basic"))
   
   status <- httr::status_code(resp)
-  
+
   parsed <- tryCatch({jsonlite::fromJSON(httr::content(resp, "text", encoding = 'UTF-8'))}, error = function(e){NULL})
   
   # if (httr::http_type(resp) != "application/json") {stop("API did not return json", call. = FALSE)}
