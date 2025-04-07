@@ -35,7 +35,7 @@ avm_response <- function(path = NULL,
   
   if (type == "GET") {
 
-  url <- 'https://avm-api-stage.value-marktdaten.de/v1/status'  
+  # url <- 'https://avm-api-stage.value-marktdaten.de/v1/status'  
   resp <- httr::GET(url,
                     encode = "json",
                     httr::authenticate(user = valuer$avm_username, 

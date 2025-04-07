@@ -16,6 +16,9 @@
 #' @export
 #' 
 
+# test <- avm_specifications()
+
+
 avm_specifications <- function(endpoint = NULL,
 															 segments = NULL,
 															 language = c('EN','DE')) {
@@ -35,7 +38,7 @@ avm_specifications <- function(endpoint = NULL,
   # get inputParameters
 
   param <- list()
-
+  
   foreach::foreach(i = ep$relativeUrl, .combine = "c") %do% {
     ep_name <- ep$endpoint[ep$relativeUrl == i]
     param[[ep_name]] <- avm_response(path = paste0(i, "/specification"))
@@ -66,6 +69,7 @@ avm_specifications <- function(endpoint = NULL,
   output <- foreach::foreach(e = unique(ep$endpoint), .combine = dplyr::bind_rows) %do% {
   	output_orig <- as.data.frame(param[[e]]$content$outputParameters)
   	output_orig <- output_orig %>%
+  		dplyr::mutate(exampleValue = NA) %>% 
   		dplyr::mutate(exampleValue = {if (class(output_orig$exampleValue) == "data.frame") as.character(jsonlite::toJSON(exampleValue)) else exampleValue}) %>% 
       dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA})
    output <- output_orig %>%
