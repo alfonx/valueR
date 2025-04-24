@@ -17,7 +17,7 @@
 
 avm_examples <- function(){
 
-	oo <- options("scipen")
+	oo <- options("scipen")$scipen
 	options(scipen = 999)
 	on.exit(options(scipen = oo))
 	

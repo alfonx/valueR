@@ -20,7 +20,7 @@ analyst_id <- function(json = NULL,
 											 query_id = FALSE,
 											 full_stats = FALSE) {
 
-	oo <- options("scipen")
+	oo <- options("scipen")$scipen
 	options(scipen = 999)
 	on.exit(options(scipen = oo))
 	

@@ -25,7 +25,7 @@ avm_specifications <- function(endpoint = NULL,
 	
 	language <- match.arg(language)
 	
-	oo <- options("scipen")
+	oo <- options("scipen")$scipen
 	options(scipen = 999)
 	on.exit(options(scipen = oo))
 	
