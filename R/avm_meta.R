@@ -29,6 +29,7 @@ avm_status <- function() {
 #' @describeIn avm_meta Get information on AVM endpoints with access granted.
 #' @export
 
+
 avm_endpoints <- function() {
   
   
@@ -39,7 +40,7 @@ avm_endpoints <- function() {
   										httr::authenticate(user = valuer$avm_username, 
   																			 password = valuer$avm_password, 
   																			 type = "basic"))
-  	
+
   	parsed <- tryCatch({jsonlite::fromJSON(httr::content(resp, "text", encoding = 'UTF-8'))}, error = function(e){NULL})
   	
   	values <- parsed$paths %>% 
@@ -56,11 +57,14 @@ avm_endpoints <- function() {
   	
   	endpoints <- endpoints %>% 
   		dplyr::filter(!stringr::str_detect(relativeUrl, 'specification|documentation|legend')) %>% 
-  		dplyr::mutate(key = toupper(snakecase::to_any_case(gsub("/","",gsub("/objectInformation/", "", gsub("/indicate/", "", relativeUrl)))))) %>%
+  		dplyr::mutate(key = toupper(snakecase::to_any_case(gsub("/","", gsub("/\\{district_code\\}", "", gsub("/objectInformation/", "", gsub("/indicate/", "", relativeUrl))))))) %>%
+  	  dplyr::mutate(key = gsub("REPORTSDISTRICT","REPORTS_DISTRICT", key)) %>%
+  	  dplyr::mutate(key = gsub("LOCATION_INFORMATIONTIMELINES","LOCATION_INFORMATION_TIMELINES", key)) %>%
   	  dplyr::filter(key != 'STATUS') %>%
   		dplyr::left_join(specs, by = c("name"))
  
-  	
+  	endpoints <- endpoints %>% dplyr::filter(key != 'BESI_CONVERT' & key != 'BUILDING_CATEGORY')
+  	  
   license_status <- foreach::foreach(e = unique(endpoints$relativeUrl), .combine = dplyr::bind_rows) %do% {
   	
       get_license <- avm_response(path = e, type = 'HEAD')
