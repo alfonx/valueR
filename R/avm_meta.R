@@ -59,7 +59,7 @@ avm_endpoints <- function() {
   		dplyr::filter(!stringr::str_detect(relativeUrl, 'specification|documentation|legend')) %>% 
   		dplyr::mutate(key = toupper(snakecase::to_any_case(gsub("/","", gsub("/\\{district_code\\}", "", gsub("/objectInformation/", "", gsub("/indicate/", "", relativeUrl))))))) %>%
   	  dplyr::mutate(key = gsub("REPORTSDISTRICT","REPORTS_DISTRICT", key)) %>%
-  	  dplyr::mutate(key = gsub("LOCATION_INFORMATIONTIMELINES","LOCATION_INFORMATION_TIMELINES", key)) %>%
+  	  dplyr::mutate(key = stringr::str_replace(key, "^LOCATION_INFORMATION(?=[A-Za-z])", "LOCATION_INFORMATION_")) %>%
   	  dplyr::filter(key != 'STATUS') %>%
   		dplyr::left_join(specs, by = c("name"))
  
