@@ -14,6 +14,7 @@
 #' @examples \dontrun{avm_examples()}
 #' @export
 
+
 # library(foreach)
 # test <- avm_examples()
 
@@ -34,7 +35,7 @@ avm_examples <- function(){
 		request <- httr::content(response, as = "parsed")
 		json <- jsonlite::toJSON(request[["exampleRequest"]], auto_unbox  = T)
 
-		if (startsWith(i, "/locationInformation")) {
+		if (startsWith(i, "/locationInformation") & !startsWith(i, "/locationInformation/timelines")) {
 		
 			p_resp <- avm_response(path = paste0(i, "?address='Hansestraße 14, 23558 Lübeck'", type = 'GET'))
 		
