@@ -47,10 +47,12 @@ avm_response <- function(path = NULL,
   parsed <- tryCatch({jsonlite::fromJSON(httr::content(resp, "text", encoding = 'UTF-8'))}, error = function(e){NULL})
   
   # if (httr::http_type(resp) != "application/json") {stop("API did not return json", call. = FALSE)}
+
   
   values <- tryCatch(
     {
-      data.frame(parsed) %>%
+    	parsed$outdatedMatviews <- NA
+    	data.frame(parsed) %>%
         dplyr::select(-dplyr::contains('durationMillis')) %>%
         dplyr::rename_all(~ stringr::str_replace(., "endpoints.", ""))
       }, error = function(e){NULL})

@@ -48,15 +48,15 @@ Functions to receive meta data from AVM API.
 }
 \section{Functions}{
 \itemize{
-\item \code{analyst_status}: Get information on API status.
+\item \code{analyst_status()}: Get information on API status.
 
-\item \code{analyst_segments}: Get information on API segments.
+\item \code{analyst_segments()}: Get information on API segments.
 
-\item \code{analyst_vars}: Get information on API variables.
+\item \code{analyst_vars()}: Get information on API variables.
 
-\item \code{analyst_spatial}: Get information on API spatial variables.
+\item \code{analyst_spatial()}: Get information on API spatial variables.
+
 }}
-
 \section{Notes}{
  This function assumes that environment variables `APIUR_USER`, `APIUR_PW` and a valid license exist.
 }

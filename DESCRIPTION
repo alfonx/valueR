@@ -22,7 +22,7 @@ Imports:
     stringr,
     tibble,
     snakecase
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.3
 Suggests: 
     markdown,
     rmarkdown,

@@ -21,14 +21,16 @@ Functions to receive meta data from AVM API.
 }
 \section{Functions}{
 \itemize{
-\item \code{avm_status}: Get information on AVM status.
+\item \code{avm_status()}: Get information on AVM status.
 
-\item \code{avm_endpoints}: Get information on AVM endpoints with access granted.
+\item \code{avm_endpoints()}: Get information on AVM endpoints with access granted.
 
-\item \code{avm_segments}: Get segments by AVM endpoint.
+\item \code{avm_segments()}: Get segments by AVM endpoint.
+
 }}
-
 \section{Examples}{
+
+
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{#colnames(avm.endpoints())
 }\if{html}{\out{</div>}}
 }
