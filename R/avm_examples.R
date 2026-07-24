@@ -24,7 +24,7 @@ avm_examples <- function(){
 	options(scipen = 999)
 	on.exit(options(scipen = oo))
 	
-	ep <- avm_endpoints() %>% dplyr::filter(!is.na(specification))
+	ep <- avm_endpoints() %>% dplyr::filter(!is.na(specification), accessGranted == TRUE)
 	
 	example_values <- foreach::foreach(i = unique(ep$relativeUrl), .combine = dplyr::bind_rows) %do% {
 
@@ -37,7 +37,7 @@ avm_examples <- function(){
 
 		if (startsWith(i, "/locationInformation") & !startsWith(i, "/locationInformation/timelines")) {
 		
-			p_resp <- avm_response(path = paste0(i, "?address='Hansestraße 14, 23558 Lübeck'", type = 'GET'))
+			p_resp <- avm_response(path = paste0(i, "?address='Hansestraße 14, 23558 Lübeck'"), type = 'GET')
 		
 		} else {
 			
