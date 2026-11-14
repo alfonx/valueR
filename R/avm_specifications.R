@@ -54,7 +54,7 @@ avm_specifications <- function(endpoint = NULL,
         	dplyr::rename_all(~ stringr::str_replace(., paste0(s, "."), "")) %>%
         	dplyr::mutate(minValue = {if ("minValue" %in% names(.)) as.character(minValue) else NA}) %>% 
   				dplyr::mutate(maxValue = {if ("maxValue" %in% names(.)) as.character(maxValue) else NA}) %>%
-  				dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA})
+  				dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) example_chr(exampleValue) else NA})
 
       		input <- input_orig %>%
         		dplyr::mutate(segment = s, endpoint = e) %>%
@@ -71,7 +71,7 @@ avm_specifications <- function(endpoint = NULL,
   	output_orig <- output_orig %>%
   		dplyr::mutate(exampleValue = NA) %>% 
   		dplyr::mutate(exampleValue = {if (class(output_orig$exampleValue) == "data.frame") as.character(jsonlite::toJSON(exampleValue)) else exampleValue}) %>% 
-      dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA})
+      dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) example_chr(exampleValue) else NA})
    output <- output_orig %>%
       dplyr::mutate(endpoint = e) %>%
       dplyr::select(endpoint, colnames(output_orig))
@@ -116,7 +116,7 @@ avm_specifications <- function(endpoint = NULL,
   			tidyr::unnest(cols = c(model)) %>%
   			dplyr::select(properties) %>% 
   			tidyr::unnest(cols = c(properties)) %>%
-  			dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA}) %>%
+  			dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) example_chr(exampleValue) else NA}) %>%
   			dplyr::mutate_if(is.logical, as.character)
   		
   		json <- json_orig %>%
@@ -125,19 +125,20 @@ avm_specifications <- function(endpoint = NULL,
   		
   		i <- 0
   		
-			if ('json' %in% json$type) {
+			if ('json' %in% json$type && 'model' %in% names(json)) {
 
 			repeat {
 
-				p <- unique(json$property[json$type == "json" & !is.na(json$model)])
+				p <- unique(json$property[json$type == "json" & !vapply(json$model, function(m) is.null(m) || all(is.na(m)), TRUE)])
 				i <- i + 1
+				if (i > length(p)) break
 
 				json_orig_model <- json %>% dplyr::filter(property == p[i]) %>%
 					dplyr::select(model) %>%
 					tidyr::unnest(cols = c(model)) %>%
 					dplyr::select(properties) %>%
 					tidyr::unnest(cols = c(properties)) %>%
-					dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) as.character(exampleValue) else NA}) %>%
+					dplyr::mutate(exampleValue = {if ("exampleValue" %in% names(.)) example_chr(exampleValue) else NA}) %>%
 					dplyr::mutate_if(is.logical, as.character)
 
 				json_model <- json_orig_model %>%
@@ -241,3 +242,12 @@ convert <- function(column, parameter, language = c('EN','DE')) {
 	
 }
 
+
+
+# exampleValue je Zeile als Text: Skalare unverändert, Objekte (data.frame-Spalte, z.B. GeoJSON) und Listen als JSON-String
+example_chr <- function(x) {
+	js <- function(v) if (is.null(v) || all(is.na(unlist(v)))) NA_character_ else as.character(jsonlite::toJSON(v, auto_unbox = TRUE))
+	if (is.data.frame(x)) vapply(seq_len(nrow(x)), function(i) js(lapply(as.list(x[i, , drop = FALSE]), function(z) if (is.list(z)) z[[1]] else z)), "")
+	else if (is.list(x)) vapply(x, function(v) if (length(v) == 1 && !is.list(v)) as.character(v) else js(v), "")
+	else as.character(x)
+}
