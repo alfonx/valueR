@@ -45,7 +45,8 @@ avm_examples <- function(){
 			
 		}
 		
-		ename <- ep[["endpoint"]][ep[["relativeUrl"]] == i]
+		# Name aus der Spec, die URL weicht ab (lod2-de = LOCATION_INFORMATION_BUILDING, #20052)
+		ename <- if (is.character(request[["indication"]])) request[["indication"]] else ep[["endpoint"]][ep[["relativeUrl"]] == i]
 		
 		parsed <- jsonlite::fromJSON(httr::content(p_resp$response, "text", encoding = 'UTF-8'))
 		
