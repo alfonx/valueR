@@ -35,7 +35,8 @@ avm_examples <- function(){
 		request <- httr::content(response, as = "parsed")
 		json <- jsonlite::toJSON(request[["exampleRequest"]], auto_unbox  = T)
 
-		if (startsWith(i, "/locationInformation") & !startsWith(i, "/locationInformation/timelines")) {
+		# timelines und offers (#20053) nur per POST mit Segment aus der Spec
+		if (startsWith(i, "/locationInformation") & !startsWith(i, "/locationInformation/timelines") & !startsWith(i, "/locationInformation/offers")) {
 		
 			p_resp <- avm_response(path = paste0(i, "?address='Hansestraße 14, 23558 Lübeck'"), type = 'GET')
 		
