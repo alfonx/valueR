@@ -63,7 +63,8 @@ avm_endpoints <- function() {
   	  dplyr::filter(key != 'STATUS') %>%
   		dplyr::left_join(specs, by = c("name"))
  
-  	endpoints <- endpoints %>% dplyr::filter(key != 'BESI_CONVERT' & key != 'BUILDING_CATEGORY')
+  	# REPORTS_DISTRICT: Produkt eingestellt (#18832), HEAD auf den Template-Pfad liefert 500 (#20133)
+  	endpoints <- endpoints %>% dplyr::filter(!key %in% c('BESI_CONVERT', 'BUILDING_CATEGORY', 'REPORTS_DISTRICT'))
   	  
   license_status <- foreach::foreach(e = unique(endpoints$relativeUrl), .combine = dplyr::bind_rows) %do% {
   	
